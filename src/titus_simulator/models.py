@@ -35,7 +35,7 @@ class RawRosterMetadata(BaseModel):
 class RawRosterResult(BaseModel):
     """Wrapper for result item containing __metadata."""
     
-    __metadata: RawRosterMetadata = Field(alias="__metadata")
+    metadata: RawRosterMetadata = Field(alias="__metadata")
     
     class Config:
         populate_by_name = True
@@ -52,7 +52,7 @@ class RawRosterSummary(BaseModel):
 class RawRosterSummaryItem(BaseModel):
     """Wrapper for summary item containing __metadata."""
     
-    __metadata: RawRosterSummary = Field(alias="__metadata")
+    metadata: RawRosterSummary = Field(alias="__metadata")
     
     class Config:
         populate_by_name = True

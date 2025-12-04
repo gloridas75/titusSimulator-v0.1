@@ -34,6 +34,17 @@ class StateStore:
                     PRIMARY KEY (deployment_item_id, personnel_id)
                 )
             """)
+            
+            await db.execute("""
+                CREATE TABLE IF NOT EXISTS roster_logs (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    uploaded_at TEXT NOT NULL,
+                    assignments_count INTEGER NOT NULL,
+                    source TEXT NOT NULL,
+                    roster_data TEXT NOT NULL
+                )
+            """)
+            
             await db.commit()
         
         logger.info("State store initialized")
@@ -179,3 +190,60 @@ class StateStore:
                 "out_events_sent": 0,
             }
 
+
+    async def log_roster_upload(
+        self, assignments_count: int, source: str, roster_data: str
+    ) -> None:
+        """
+        Log a roster upload.
+        
+        Args:
+            assignments_count: Number of assignments in roster
+            source: Source of the roster (e.g., "NGRS", "File Upload")
+            roster_data: JSON string of roster data
+        """
+        timestamp = datetime.now().isoformat()
+        
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute(
+                """
+                INSERT INTO roster_logs (uploaded_at, assignments_count, source, roster_data)
+                VALUES (?, ?, ?, ?)
+                """,
+                (timestamp, assignments_count, source, roster_data),
+            )
+            await db.commit()
+        
+        logger.info(f"Logged roster upload: {assignments_count} assignments from {source}")
+    
+    async def get_roster_logs(self, limit: int = 50) -> list[dict]:
+        """
+        Get recent roster upload logs.
+        
+        Args:
+            limit: Maximum number of logs to return
+            
+        Returns:
+            List of roster log entries
+        """
+        async with aiosqlite.connect(self.db_path) as db:
+            cursor = await db.execute(
+                """
+                SELECT id, uploaded_at, assignments_count, source
+                FROM roster_logs
+                ORDER BY uploaded_at DESC
+                LIMIT ?
+                """,
+                (limit,),
+            )
+            rows = await cursor.fetchall()
+            
+            return [
+                {
+                    "id": row[0],
+                    "uploaded_at": row[1],
+                    "assignments_count": row[2],
+                    "source": row[3],
+                }
+                for row in rows
+            ]

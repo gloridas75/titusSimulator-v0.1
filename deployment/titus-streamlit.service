@@ -7,7 +7,7 @@ Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/titusSimulator-v0.1
 Environment="PATH=/home/ubuntu/titusSimulator-v0.1/venv/bin"
-ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/streamlit run streamlit_ui.py --server.port 8501 --server.address 0.0.0.0
+ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/streamlit run streamlit_ui.py --server.port 8086 --server.address 0.0.0.0
 Restart=always
 RestartSec=10
 

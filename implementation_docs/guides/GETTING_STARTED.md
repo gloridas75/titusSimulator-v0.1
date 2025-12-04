@@ -54,7 +54,7 @@ nano .env  # or use your preferred editor
 
 Required configuration in `.env`:
 ```env
-NGRS_ROSTER_URL=http://your-ngrs-host:8080/api/integration/titus/roster
+# Note: NGRS will POST roster data directly to Titus Simulator's /upload-roster endpoint
 NGRS_CLOCKING_URL=http://your-ngrs-host:8080/api/integration/titus/clocking
 NGRS_API_KEY=your-api-key-if-needed
 ```
@@ -76,27 +76,27 @@ This verifies that all components work correctly before running the full server.
 
 **Or manually:**
 ```bash
-uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085 --reload
 ```
 
 ### Step 5: Verify It's Running
 
 ```bash
 # Health check
-curl http://localhost:8000/health
+curl http://localhost:8085/health
 
 # View interactive API docs
-open http://localhost:8000/docs
+open http://localhost:8085/docs
 ```
 
 ### Step 6: Trigger a Test Simulation
 
 ```bash
 # Manually run a simulation cycle for today
-curl -X POST http://localhost:8000/run-once
+curl -X POST http://localhost:8085/run-once
 
 # Check statistics
-curl http://localhost:8000/stats
+curl http://localhost:8085/stats
 ```
 
 ## What Happens Automatically
@@ -201,7 +201,7 @@ in_offset = timedelta(minutes=rng.randint(-10, 20))
 
 The application logs to console. To save logs:
 ```bash
-uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000 2>&1 | tee simulator.log
+uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085 2>&1 | tee simulator.log
 ```
 
 ### Check Database
@@ -214,7 +214,7 @@ sqlite3 sim_state.db "SELECT COUNT(*) FROM simulated_events;"
 
 ```bash
 # Set up a cron job or monitoring tool
-*/5 * * * * curl -f http://localhost:8000/health || echo "Service down!"
+*/5 * * * * curl -f http://localhost:8085/health || echo "Service down!"
 ```
 
 ## Troubleshooting
@@ -227,9 +227,9 @@ pip install -e .
 
 ### Issue: Can't connect to NGRS
 **Solution:**
-- Check `NGRS_ROSTER_URL` and `NGRS_CLOCKING_URL` in `.env`
+- Check `NGRS_CLOCKING_URL` in `.env`
 - Verify NGRS is running and accessible
-- Test with: `curl http://your-ngrs-host:8080/api/integration/titus/roster`
+- Note: Roster data is POSTed by NGRS to Titus Simulator's /upload-roster endpoint
 
 ### Issue: Database locked
 **Solution:**
@@ -238,7 +238,7 @@ pip install -e .
 
 ### Issue: No events being generated
 **Solution:**
-- Check that roster exists for today: `curl -X POST http://localhost:8000/run-once`
+- Check that roster exists for today: `curl -X POST http://localhost:8085/run-once`
 - Review logs for errors
 - Verify date format matches NGRS expectations
 
@@ -250,7 +250,7 @@ pip install -e .
    ```bash
    uvicorn titus_simulator.api:app --reload
    ```
-4. **Verify** via API docs at http://localhost:8000/docs
+4. **Verify** via API docs at http://localhost:8085/docs
 
 ## Production Deployment
 
@@ -272,7 +272,7 @@ See `USAGE.md` for:
 ```
 ┌─────────────────────────────────────────────────────┐
 │                   FastAPI Server                    │
-│                  (Port 8000)                        │
+│                  (Port 8085)                        │
 └───────────────┬─────────────────────────────────────┘
                 │
         ┌───────┴────────┐

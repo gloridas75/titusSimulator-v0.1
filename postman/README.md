@@ -6,7 +6,8 @@ This folder contains Postman collections and environments for testing the Titus 
 ## Files
 
 1. **Titus_Simulator_API.postman_collection.json** - Main API collection
-2. **Titus_Simulator.postman_environment.json** - Environment variables
+2. **Titus_Simulator.postman_environment.json** - Local development environment
+3. **Titus_Simulator_Production.postman_environment.json** - Production environment
 
 ## Import Instructions
 
@@ -18,12 +19,30 @@ This folder contains Postman collections and environments for testing the Titus 
 
 ### Step 2: Import Environment
 1. Click **Import** button again
-2. Select **Titus_Simulator.postman_environment.json**
+2. Select both environment files:
+   - **Titus_Simulator.postman_environment.json** (Local)
+   - **Titus_Simulator_Production.postman_environment.json** (Production)
 3. Click **Import**
 
 ### Step 3: Activate Environment
 1. Click the environment dropdown (top right)
-2. Select **Titus Simulator Environment**
+2. Select either:
+   - **Titus Simulator Environment** (for local testing on localhost:8085)
+   - **Titus Simulator - Production** (for production server)
+
+## Environment Configuration
+
+### Local Environment
+- **base_url**: `http://localhost:8085`
+- **ngrs_clocking_url**: `http://localhost:8080/api/integration/titus/clocking`
+- **ngrs_api_key**: (empty for local testing)
+
+### Production Environment
+- **base_url**: `http://your-production-server:8085`
+- **ngrs_clocking_url**: `http://your-ngrs-server:8080/api/integration/titus/clocking`
+- **ngrs_api_key**: (set your production API key)
+
+**Note**: Update the production environment URLs with your actual server addresses before deployment.
 
 ## Available Endpoints
 
@@ -104,10 +123,11 @@ This folder contains Postman collections and environments for testing the Titus 
 
 | Variable | Default Value | Description |
 |----------|---------------|-------------|
-| `base_url` | `http://localhost:8000` | Titus Simulator API base URL |
+| `base_url` | `http://localhost:8085` | Titus Simulator API base URL |
 | `ngrs_clocking_url` | `http://localhost:8080/api/integration/titus/clocking` | NGRS Clocking API endpoint |
-| `ngrs_roster_url` | `http://localhost:8080/api/integration/ngrs/roster` | NGRS Roster API endpoint |
 | `ngrs_api_key` | _(empty)_ | Optional API key for NGRS authentication |
+
+Note: `ngrs_roster_url` is no longer needed as NGRS POSTs roster data directly to Titus Simulator's `/upload-roster` endpoint.
 
 ## Configuration
 
@@ -121,13 +141,13 @@ This folder contains Postman collections and environments for testing the Titus 
 
 **Local Development:**
 ```
-base_url = http://localhost:8000
+base_url = http://localhost:8085
 ngrs_clocking_url = http://localhost:8080/api/integration/titus/clocking
 ```
 
 **Remote Server:**
 ```
-base_url = http://your-server-ip:8000
+base_url = http://your-server-ip:8085
 ngrs_clocking_url = http://ngrs-server:8080/api/integration/titus/clocking
 ```
 
@@ -141,8 +161,8 @@ ngrs_clocking_url = http://ngrs-server:8080/api/integration/titus/clocking
 
 ### Testing NGRS Integration Flow
 1. Ensure NGRS API is running
-2. Configure `ngrs_roster_url` in environment
-3. Run **Run Simulation by Date** with target date
+2. NGRS should POST roster data to Titus Simulator's `/upload-roster` endpoint
+3. Run **Run Simulation from Uploaded File** to process the roster
 4. Run **Get Statistics** to view results
 
 ### Testing Clocking Event Format
@@ -167,10 +187,10 @@ The collection includes a sample roster with 2 assignments:
 ## Troubleshooting
 
 ### Connection Refused
-- **Issue**: Cannot connect to `http://localhost:8000`
+- **Issue**: Cannot connect to `http://localhost:8085`
 - **Solution**: 
-  - Ensure Titus Simulator is running: `python -m uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000`
-  - Check if port 8000 is available
+  - Ensure Titus Simulator is running: `python -m uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085`
+  - Check if port 8085 is available
 
 ### NGRS API Not Available
 - **Issue**: `/run-once` returns error about NGRS connection

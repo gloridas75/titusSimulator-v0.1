@@ -1,0 +1,1173 @@
+{
+  "FunctionName": "Prod-MRSIntegration",
+  "list_item": {
+    "data": {
+      "d": {
+        "results": [
+          {
+            "__metadata": {
+              "PersonnelId": "00141547",
+              "personnel_first_name": "Mohammed",
+              "personnel_last_name": "Arman Azad",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "714efbd5b46b46aba27c91e25b849606",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00153265",
+              "personnel_first_name": "Yuan",
+              "personnel_last_name": "Chong Pok",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "c7ea105211824f96a2a7be2d18c4b066",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00052462",
+              "personnel_first_name": "Kovinathan",
+              "personnel_last_name": "Munoohara",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "760614fbc19c446398cdbecbdd4e3a4f",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00108960",
+              "personnel_first_name": "Jun",
+              "personnel_last_name": "Hong Teh",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "ebbd42c77f7b41de8415e0d19a060561",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00030487",
+              "personnel_first_name": "Chee",
+              "personnel_last_name": "Chiang Tan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "29e5e419de364e0eb5a3c0dd686599fd",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00036144",
+              "personnel_first_name": "Murali",
+              "personnel_last_name": "Dharan Krishnan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "4ee61899a6a748a491e44c12f86dd629",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00149168",
+              "personnel_first_name": "Muhammad",
+              "personnel_last_name": "Mirza Ramlan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "eb7557b5838d49f895ad6ed277291da5",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00151006",
+              "personnel_first_name": "Choon",
+              "personnel_last_name": "Ping Chen",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "0554fd95c78d44cdac0de9f69d0afe37",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00150211",
+              "personnel_first_name": "Kai",
+              "personnel_last_name": "Jer Loh",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "fe6cc114697d406c9cf2987af45bfdde",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00152140",
+              "personnel_first_name": "Ahmad",
+              "personnel_last_name": "Syazwan Azman",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "9b82ef79778a4c4894fb3279dc2f9a83",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00150380",
+              "personnel_first_name": "Vimal",
+              "personnel_last_name": "Kumar Kanagarajah",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "417553f8c91b4665858b064e25f3bcc4",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00073354",
+              "personnel_first_name": "Ai",
+              "personnel_last_name": "Fong Sim",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "8f0977a67e96406e947a8621787f749b",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00033426",
+              "personnel_first_name": "Tirunyana",
+              "personnel_last_name": "Sambanthan Irishan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "2d5fb0dd6a9749b8aadcd74970be38be",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00049464",
+              "personnel_first_name": "Ngiun",
+              "personnel_last_name": "Siong Ting",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "6381f681633f419abd39304205269b8c",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00032102",
+              "personnel_first_name": "Sachi",
+              "personnel_last_name": "Ananthan Morgan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "52c9a4862bec4aa880d45570f9022c61",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00161268",
+              "personnel_first_name": "Kamarul",
+              "personnel_last_name": "Kamarudin",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "d93e237c6ed34d76996d85a9871670c7",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00026517",
+              "personnel_first_name": "Mohamed",
+              "personnel_last_name": "Shafie Mohamed Tharik",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "754f60d411a94f6aa91162a5810af1c4",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00145287",
+              "personnel_first_name": "Iuan",
+              "personnel_last_name": "Dinq Hang",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "9cee04c5d98e4965881e47c12f9b4a3b",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00110416",
+              "personnel_first_name": "Ze",
+              "personnel_last_name": "Ping Yong",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "8996afe148d24954a2744eff03131a11",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00104262",
+              "personnel_first_name": "Jian",
+              "personnel_last_name": "Cong Tan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "3a687c15d3684c83a012aa285bb5b7e4",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT8H0M0S",
+              "planned_end_time": "PT20H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00152874",
+              "personnel_first_name": "Divakaran",
+              "personnel_last_name": "Arasu",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "aee581db3c7f490cadb5279fdb548500",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00103591",
+              "personnel_first_name": "Yong",
+              "personnel_last_name": "Tang Chong",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "eb60d706ffdb4ea88ee0411627dc6348",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00146689",
+              "personnel_first_name": "Yeong",
+              "personnel_last_name": "Kin Sing",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "2a0efcb5783c4aeca55d76bb259a0551",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00153273",
+              "personnel_first_name": "Thibanraj",
+              "personnel_last_name": "Selvaraj",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "814b302f64d047f09566028bf4b7d024",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00034246",
+              "personnel_first_name": "Arumugam",
+              "personnel_last_name": "Paramesperan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "1cfa6ceb0de44858bada945d2b5c1fb0",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00061072",
+              "personnel_first_name": "Chin",
+              "personnel_last_name": "Yau Wong",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "2c3ba3085ad44f2bab4df4873e908fe8",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00023501",
+              "personnel_first_name": "Mohammad",
+              "personnel_last_name": "Fauzi Mohammad Na'Em",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "02510fdc7e044013844042a215b7a314",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00064091",
+              "personnel_first_name": "Mohd",
+              "personnel_last_name": "Aliff Azuwan Zulkifli Cheong",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "23003b5e3c55415da79ee5bd64e3bbfe",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00075563",
+              "personnel_first_name": "Suk",
+              "personnel_last_name": "Thon Eh Di",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "d2e3bf9e37fd42e198b83f16f22b08e0",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00158793",
+              "personnel_first_name": "Lim",
+              "personnel_last_name": "Yan Kit",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "6067dba958484b1caddd8d75374b0694",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00137793",
+              "personnel_first_name": "Mohammad",
+              "personnel_last_name": "Hilman Rusydi Mohammad Hasnin",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "58b4a349637649fbb684b4faf3228978",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00033644",
+              "personnel_first_name": "Saravanakkumar",
+              "personnel_last_name": "Rengiah",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "5132aef40d82431994592b75b7bea536",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00158375",
+              "personnel_first_name": "Tinash",
+              "personnel_last_name": "Balakrushnan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "fa9ee5b8e899415a890221a62e343a32",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00161300",
+              "personnel_first_name": "Faizizzul",
+              "personnel_last_name": "Irham Hazali",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "84e10e41c51b4fa6a6c9635695e45d30",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00159586",
+              "personnel_first_name": "Jing",
+              "personnel_last_name": "Xun Chan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "5299ebf995dc42e2aa9534613094eb6b",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00121975",
+              "personnel_first_name": "Kar",
+              "personnel_last_name": "Chun Ngan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "24d7c6cbe18b4f31a150bad127eced9c",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00035446",
+              "personnel_first_name": "T.",
+              "personnel_last_name": "Suresh Thirumurthi",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "2e0f8f9d34aa4c6c9b520f6e3bd16659",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00158151",
+              "personnel_first_name": "Han",
+              "personnel_last_name": "Zhi Lee",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "01acad7b29db4a8895cc9914f2df10cb",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00075987",
+              "personnel_first_name": "Kai",
+              "personnel_last_name": "Jie Gan",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "73013ec70ed848c1880ef527bf3f4959",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          },
+          {
+            "__metadata": {
+              "PersonnelId": "00153145",
+              "personnel_first_name": "Chee",
+              "personnel_last_name": "Ming Lim",
+              "PersonnelType": "5",
+              "PersonnelTypeDescription": "APO",
+              "SecSeqNum": "01",
+              "PrimarySeqNum": "001",
+              "demand_item_id": "DI-2512010803-15160815",
+              "customer_id": "CUS 010",
+              "customer_name": "Global Engineering Pte Ltd",
+              "deployment_location": "STU ATM APO 0730",
+              "deployment_date": "/Date(1764892800000)/",
+              "deploymentItm": "09c2793386e7456698f54e3be152f149",
+              "planner_group_id": "SAS",
+              "plant": "SLS",
+              "planned_start_time": "PT20H0M0S",
+              "planned_end_time": "PT8H0M0S",
+              "demand_type": "BILL_DEPLOY"
+            }
+          }
+        ],
+        "summary": [
+          {
+            "__metadata": {
+              "deployment_item": "01acad7b29db4a8895cc9914f2df10cb",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "02510fdc7e044013844042a215b7a314",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "0554fd95c78d44cdac0de9f69d0afe37",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "09c2793386e7456698f54e3be152f149",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "1cfa6ceb0de44858bada945d2b5c1fb0",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "23003b5e3c55415da79ee5bd64e3bbfe",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "24d7c6cbe18b4f31a150bad127eced9c",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "29e5e419de364e0eb5a3c0dd686599fd",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "2a0efcb5783c4aeca55d76bb259a0551",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "2c3ba3085ad44f2bab4df4873e908fe8",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "2d5fb0dd6a9749b8aadcd74970be38be",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "2e0f8f9d34aa4c6c9b520f6e3bd16659",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "3a687c15d3684c83a012aa285bb5b7e4",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "417553f8c91b4665858b064e25f3bcc4",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "4ee61899a6a748a491e44c12f86dd629",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "5132aef40d82431994592b75b7bea536",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "5299ebf995dc42e2aa9534613094eb6b",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "52c9a4862bec4aa880d45570f9022c61",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "58b4a349637649fbb684b4faf3228978",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "6067dba958484b1caddd8d75374b0694",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "6381f681633f419abd39304205269b8c",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "714efbd5b46b46aba27c91e25b849606",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "73013ec70ed848c1880ef527bf3f4959",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "754f60d411a94f6aa91162a5810af1c4",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "760614fbc19c446398cdbecbdd4e3a4f",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "814b302f64d047f09566028bf4b7d024",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "84e10e41c51b4fa6a6c9635695e45d30",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "8996afe148d24954a2744eff03131a11",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "8f0977a67e96406e947a8621787f749b",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "9b82ef79778a4c4894fb3279dc2f9a83",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "9cee04c5d98e4965881e47c12f9b4a3b",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "aee581db3c7f490cadb5279fdb548500",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "c7ea105211824f96a2a7be2d18c4b066",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "d2e3bf9e37fd42e198b83f16f22b08e0",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "d93e237c6ed34d76996d85a9871670c7",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "eb60d706ffdb4ea88ee0411627dc6348",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "eb7557b5838d49f895ad6ed277291da5",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "ebbd42c77f7b41de8415e0d19a060561",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "fa9ee5b8e899415a890221a62e343a32",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          },
+          {
+            "__metadata": {
+              "deployment_item": "fe6cc114697d406c9cf2987af45bfdde",
+              "totalQty": 1,
+              "changedTime": "20251201115343"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

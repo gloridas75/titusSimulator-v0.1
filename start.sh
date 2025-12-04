@@ -45,9 +45,9 @@ pip install -q -e .
 
 echo ""
 echo -e "${GREEN}Starting Titus Simulator...${NC}"
-echo -e "${BLUE}Server will be available at: http://localhost:8000${NC}"
-echo -e "${BLUE}API docs at: http://localhost:8000/docs${NC}"
+echo -e "${BLUE}Server will be available at: http://localhost:8085${NC}"
+echo -e "${BLUE}API docs at: http://localhost:8085/docs${NC}"
 echo ""
 
 # Start the server
-uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085 --reload

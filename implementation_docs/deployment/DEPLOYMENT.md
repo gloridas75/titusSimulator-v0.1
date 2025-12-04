@@ -19,8 +19,8 @@ Open the following ports in your EC2 Security Group:
 | Port | Protocol | Source | Description |
 |------|----------|--------|-------------|
 | 22 | TCP | Your IP | SSH access |
-| 8000 | TCP | 0.0.0.0/0 | API endpoint |
-| 8501 | TCP | 0.0.0.0/0 | Web UI (Streamlit) |
+| 8085 | TCP | 0.0.0.0/0 | API endpoint |
+| 8086 | TCP | 0.0.0.0/0 | Web UI (Streamlit) |
 | 80 | TCP | 0.0.0.0/0 | HTTP (if using nginx) |
 | 443 | TCP | 0.0.0.0/0 | HTTPS (if using nginx with SSL) |
 
@@ -124,7 +124,7 @@ nano /home/ubuntu/titusSimulator-v0.1/.env
 Update the following values:
 ```bash
 # NGRS API Configuration
-NGRS_ROSTER_URL=http://your-ngrs-server:8080/api/integration/ngrs/roster
+# Note: NGRS will POST roster data directly to Titus Simulator's /upload-roster endpoint
 NGRS_CLOCKING_URL=http://your-ngrs-server:8080/api/integration/titus/clocking
 NGRS_API_KEY=your-api-key-if-needed
 
@@ -167,7 +167,7 @@ Expected output: `Active: active (running)`
 
 ```bash
 # Health check
-curl http://localhost:8000/health
+curl http://localhost:8085/health
 
 # Expected response:
 # {"status":"healthy","version":"0.1.0"}
@@ -177,7 +177,7 @@ curl http://localhost:8000/health
 
 Open browser and navigate to:
 ```
-http://your-ec2-public-ip:8501
+http://your-ec2-public-ip:8086
 ```
 
 You should see the Titus Simulator Web UI.
@@ -326,12 +326,12 @@ sudo journalctl -u titus-simulator -n 50
 **Solutions:**
 ```bash
 # Check if port is in use
-sudo netstat -tulpn | grep 8000
-sudo netstat -tulpn | grep 8501
+sudo netstat -tulpn | grep 8085
+sudo netstat -tulpn | grep 8086
 
 # Kill processes using ports
-sudo kill -9 $(sudo lsof -t -i:8000)
-sudo kill -9 $(sudo lsof -t -i:8501)
+sudo kill -9 $(sudo lsof -t -i:8085)
+sudo kill -9 $(sudo lsof -t -i:8086)
 
 # Reinstall dependencies
 cd /home/ubuntu/titusSimulator-v0.1
@@ -343,18 +343,18 @@ pip install -r requirements.txt --force-reinstall
 
 **Check firewall:**
 ```bash
-# On EC2: Verify Security Group allows ports 8000, 8501
+# On EC2: Verify Security Group allows ports 8085, 8086
 
 # On Ubuntu server:
 sudo ufw status
-sudo ufw allow 8000
-sudo ufw allow 8501
+sudo ufw allow 8085
+sudo ufw allow 8086
 ```
 
 **Check if services are listening:**
 ```bash
-sudo netstat -tulpn | grep 8000
-sudo netstat -tulpn | grep 8501
+sudo netstat -tulpn | grep 8085
+sudo netstat -tulpn | grep 8086
 ```
 
 ### Issue 3: Database Locked Error
@@ -445,7 +445,7 @@ Create a monitoring script:
 ```bash
 cat > /home/ubuntu/monitor.sh << 'EOF'
 #!/bin/bash
-API_STATUS=$(curl -s http://localhost:8000/health | grep -o "healthy")
+API_STATUS=$(curl -s http://localhost:8085/health | grep -o "healthy")
 if [ "$API_STATUS" != "healthy" ]; then
     echo "API is down! Restarting..."
     sudo systemctl restart titus-simulator
@@ -497,10 +497,10 @@ echo "sqlalchemy[asyncio]==2.0.23" >> requirements.txt
 ## Quick Reference
 
 ### URLs
-- **API Health**: `http://your-ip:8000/health`
-- **API Upload**: `http://your-ip:8000/upload-roster`
-- **API Stats**: `http://your-ip:8000/stats`
-- **Web UI**: `http://your-ip:8501`
+- **API Health**: `http://your-ip:8085/health`
+- **API Upload**: `http://your-ip:8085/upload-roster`
+- **API Stats**: `http://your-ip:8085/stats`
+- **Web UI**: `http://your-ip:8086`
 
 ### File Locations
 - **Application**: `/home/ubuntu/titusSimulator-v0.1`

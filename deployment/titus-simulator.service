@@ -7,7 +7,7 @@ Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/titusSimulator-v0.1
 Environment="PATH=/home/ubuntu/titusSimulator-v0.1/venv/bin"
-ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000
+ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085
 Restart=always
 RestartSec=10
 

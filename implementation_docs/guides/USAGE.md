@@ -24,8 +24,7 @@ cp .env.example .env
 
 # Edit .env with your NGRS API endpoints
 # Minimum required configuration:
-# - NGRS_ROSTER_URL
-# - NGRS_CLOCKING_URL
+# - NGRS_CLOCKING_URL (Note: NGRS POSTs roster data directly to Titus Simulator)
 ```
 
 ### 3. Run the Simulator
@@ -37,19 +36,19 @@ cp .env.example .env
 
 **Option B: Using uvicorn directly**
 ```bash
-uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085 --reload
 ```
 
 **Option C: Production mode**
 ```bash
-uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000 --workers 4
+uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085 --workers 4
 ```
 
 ## API Endpoints
 
 ### Health Check
 ```bash
-curl http://localhost:8000/health
+curl http://localhost:8085/health
 ```
 
 Response:
@@ -64,7 +63,7 @@ Response:
 ### Manual Trigger
 Manually trigger a simulation cycle for today:
 ```bash
-curl -X POST http://localhost:8000/run-once
+curl -X POST http://localhost:8085/run-once
 ```
 
 Response:
@@ -82,7 +81,7 @@ Response:
 ### Statistics
 Get statistics about simulated events:
 ```bash
-curl http://localhost:8000/stats
+curl http://localhost:8085/stats
 ```
 
 Response:
@@ -101,8 +100,8 @@ Response:
 
 Once the server is running, visit:
 
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
+- **Swagger UI**: http://localhost:8085/docs
+- **ReDoc**: http://localhost:8085/redoc
 
 These provide interactive API documentation where you can test endpoints directly.
 
@@ -152,8 +151,7 @@ The timing is deterministic based on deployment and personnel IDs, so the same a
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `NGRS_ROSTER_URL` | NGRS roster API endpoint | Required |
-| `NGRS_CLOCKING_URL` | NGRS clocking API endpoint | Required |
+| `NGRS_CLOCKING_URL` | NGRS clocking API endpoint (Note: Roster POSTed by NGRS to Titus) | Required |
 | `NGRS_API_KEY` | API authentication key | None |
 | `POLL_INTERVAL_SECONDS` | How often to run simulation | 60 |
 | `TIMEZONE` | Timezone for date/time operations | Asia/Singapore |
@@ -244,9 +242,8 @@ pip install -e .
 
 ### "ValidationError" on startup
 
-Check your `.env` file. The required fields are:
-- `NGRS_ROSTER_URL`
-- `NGRS_CLOCKING_URL`
+Check your `.env` file. The required field is:
+- `NGRS_CLOCKING_URL` (Note: NGRS POSTs roster data directly to Titus Simulator)
 
 ### Database locked errors
 
@@ -322,13 +319,13 @@ COPY . .
 
 RUN pip install --no-cache-dir -e .
 
-CMD ["uvicorn", "titus_simulator.api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "titus_simulator.api:app", "--host", "0.0.0.0", "--port", "8085"]
 ```
 
 Build and run:
 ```bash
 docker build -t titus-simulator .
-docker run -p 8000:8000 --env-file .env titus-simulator
+docker run -p 8085:8085 --env-file .env titus-simulator
 ```
 
 ### Using systemd (Linux)
@@ -344,7 +341,7 @@ Type=simple
 User=your-user
 WorkingDirectory=/path/to/titusSimulator-v0.1
 Environment="PATH=/path/to/venv/bin"
-ExecStart=/path/to/venv/bin/uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000
+ExecStart=/path/to/venv/bin/uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085
 Restart=always
 
 [Install]
@@ -363,7 +360,7 @@ sudo systemctl status titus-simulator
 Use the health check endpoint for monitoring:
 ```bash
 # Automated health check (cron, monitoring tool, etc.)
-curl -f http://localhost:8000/health || alert-system
+curl -f http://localhost:8085/health || alert-system
 ```
 
 ## Support

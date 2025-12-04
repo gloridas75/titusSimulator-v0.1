@@ -67,8 +67,7 @@ nano /home/ubuntu/titusSimulator-v0.1/.env
 ```
 
 Update:
-- `NGRS_ROSTER_URL` - Your NGRS roster API URL
-- `NGRS_CLOCKING_URL` - Your NGRS clocking API URL
+- `NGRS_CLOCKING_URL` - Your NGRS clocking API URL (Note: NGRS will POST roster data directly to Titus)
 - `NGRS_API_KEY` - Your API key (if needed)
 
 Save and restart:
@@ -84,27 +83,27 @@ sudo systemctl status titus-simulator
 sudo systemctl status titus-streamlit
 
 # Test API
-curl http://localhost:8000/health
+curl http://localhost:8085/health
 
 # Should return: {"status":"healthy","version":"0.1.0"}
 ```
 
 ### 5. Configure Security Group
 In AWS Console:
-- [ ] Allow port 8000 (API)
-- [ ] Allow port 8501 (Web UI)
+- [ ] Allow port 8085 (API)
+- [ ] Allow port 8086 (Web UI)
 - [ ] Optionally allow port 80 (if using nginx)
 
 ### 6. Access Application
-- **API**: `http://YOUR-EC2-IP:8000`
-- **Web UI**: `http://YOUR-EC2-IP:8501`
-- **API Docs**: `http://YOUR-EC2-IP:8000/docs`
+- **API**: `http://YOUR-EC2-IP:8085`
+- **Web UI**: `http://YOUR-EC2-IP:8086`
+- **API Docs**: `http://YOUR-EC2-IP:8085/docs`
 
 ## Post-Deployment
 
 ### Test with Postman
 - [ ] Import collection from `postman/` folder
-- [ ] Update `base_url` to `http://YOUR-EC2-IP:8000`
+- [ ] Update `base_url` to `http://YOUR-EC2-IP:8085`
 - [ ] Run health check
 - [ ] Upload sample roster
 - [ ] Run simulation

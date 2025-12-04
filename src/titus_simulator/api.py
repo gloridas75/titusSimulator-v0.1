@@ -123,9 +123,12 @@ async def upload_roster(request: Request):
     Accepts NGRS roster format and stores it for processing.
     
     Returns:
-        Upload confirmation with assignment count
+        Upload confirmation with RequestId for each PersonnelId
     """
     try:
+        import json
+        import uuid
+        
         roster_data = await request.json()
         
         # Validate it's in NGRS format
@@ -133,27 +136,81 @@ async def upload_roster(request: Request):
         
         if not results:
             return {
-                "status": "error",
+                "success": False,
                 "message": "No assignments found in roster data",
+                "results": []
             }
         
         # Store in app state
         app.state.uploaded_roster = results
         
+        # Generate RequestId for each PersonnelId
+        request_results = []
+        for item in results:
+            metadata = item.get("__metadata", {})
+            personnel_id = metadata.get("PersonnelId", "UNKNOWN")
+            request_id = str(uuid.uuid4())
+            request_results.append({
+                "PersonnelId": personnel_id,
+                "RequestId": request_id
+            })
+        
+        # Log the roster upload
+        state_store: StateStore = app.state.state_store
+        await state_store.log_roster_upload(
+            assignments_count=len(results),
+            source="File Upload",
+            roster_data=json.dumps(roster_data)
+        )
+        
         logger.info(f"Uploaded roster with {len(results)} assignments")
         
         return {
-            "status": "success",
-            "message": f"Roster uploaded successfully",
-            "assignments_count": len(results),
+            "success": True,
+            "results": request_results
         }
     
     except Exception as e:
         logger.error(f"Error uploading roster: {e}")
         return {
-            "status": "error",
+            "success": False,
             "message": str(e),
+            "results": []
         }
+
+
+@app.get("/roster")
+async def get_roster():
+    """
+    Get the currently uploaded roster data.
+    
+    Returns:
+        Current roster assignments or empty list if none uploaded
+    """
+    roster = app.state.uploaded_roster or []
+    
+    return {
+        "status": "ok",
+        "count": len(roster),
+        "roster": roster,
+    }
+
+
+@app.get("/roster-logs")
+async def get_roster_logs():
+    """
+    Get recent roster upload logs.
+    
+    Returns:
+        List of recent roster uploads with timestamps and counts
+    """
+    state_store: StateStore = app.state.state_store
+    logs = await state_store.get_roster_logs(limit=50)
+    
+    return {
+        "status": "ok",
+        "logs": logs,
+    }
 
 
 @app.post("/run-from-file")
@@ -191,3 +248,37 @@ async def run_from_file():
             "message": str(e),
         }
 
+
+
+@app.get("/roster")
+async def get_roster():
+    """
+    Get the currently uploaded roster data.
+    
+    Returns:
+        Current roster assignments or empty list if none uploaded
+    """
+    roster = app.state.uploaded_roster or []
+    
+    return {
+        "status": "ok",
+        "count": len(roster),
+        "roster": roster,
+    }
+
+
+@app.get("/roster-logs")
+async def get_roster_logs():
+    """
+    Get recent roster upload logs.
+    
+    Returns:
+        List of recent roster uploads with timestamps and counts
+    """
+    state_store: StateStore = app.state.state_store
+    logs = await state_store.get_roster_logs(limit=50)
+    
+    return {
+        "status": "ok",
+        "logs": logs,
+    }

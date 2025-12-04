@@ -42,7 +42,7 @@ A beautiful, intuitive web interface built with **Streamlit** for testing and mo
 This will:
 1. Create/activate virtual environment
 2. Install dependencies
-3. Start the UI on http://localhost:8501
+3. Start the UI on http://localhost:8086
 
 ### Method 2: Using Make
 
@@ -267,7 +267,7 @@ Information about:
    ```
 
 2. **Verify Connection**
-   - Open http://localhost:8501
+   - Open http://localhost:8086
    - Check sidebar shows "✅ API Running"
 
 3. **Upload Test Data**

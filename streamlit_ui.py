@@ -18,7 +18,7 @@ import pandas as pd
 import streamlit as st
 
 # Configuration
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "http://localhost:8085"
 DB_PATH = "sim_state.db"
 
 
@@ -111,6 +111,29 @@ def get_database_data() -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def get_current_roster() -> dict:
+    """Get the currently uploaded roster from the API."""
+    try:
+        response = httpx.get(f"{API_BASE_URL}/roster", timeout=5.0)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        st.error(f"Error fetching roster: {e}")
+        return {"status": "error", "count": 0, "roster": []}
+
+
+def get_roster_logs() -> dict:
+    """Get roster upload logs from the API."""
+    try:
+        response = httpx.get(f"{API_BASE_URL}/roster-logs", timeout=5.0)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        st.error(f"Error fetching roster logs: {e}")
+        return {"status": "error", "logs": []}
+        return pd.DataFrame()
+
+
 def main():
     """Main Streamlit application."""
     
@@ -170,8 +193,9 @@ def main():
             st.rerun()
     
     # Main content area - Tabs
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
         "📤 Upload Roster",
+        "📋 Roster View",
         "📊 Status Dashboard",
         "📈 Statistics",
         "ℹ️ About"
@@ -216,14 +240,22 @@ def main():
                 # Upload to API
                 result = upload_roster_json(json_data)
                 
-                if result.get("status") == "success":
+                if result.get("success"):
                     st.session_state.roster_uploaded = True
+                    
+                    assignments_count = len(result.get("results", []))
                     
                     col1, col2 = st.columns(2)
                     with col1:
-                        st.metric("Assignments Found", result.get("assignments_count", 0))
+                        st.metric("Assignments Processed", assignments_count)
                     with col2:
                         st.success("✅ Uploaded to simulator")
+                    
+                    # Show RequestIds
+                    if result.get("results"):
+                        with st.expander("📋 View Request IDs"):
+                            results_df = pd.DataFrame(result["results"])
+                            st.dataframe(results_df, use_container_width=True)
                     
                     # Show how to use the data
                     st.markdown("### Next Steps:")
@@ -232,7 +264,7 @@ def main():
                     2. Click **"Run Simulation Now"** in the sidebar to process
                     3. View results in the **Status Dashboard** tab
                     """)
-                elif result.get("status") == "error":
+                else:
                     st.error(f"❌ Error: {result.get('message', 'Upload failed')}")
                 
             except json.JSONDecodeError as e:
@@ -240,8 +272,100 @@ def main():
             except Exception as e:
                 st.error(f"❌ Error processing file: {e}")
     
-    # Tab 2: Status Dashboard
+    # Tab 2: Roster View
     with tab2:
+        st.header("📋 Roster View")
+        st.markdown("View the current roster data and upload history")
+        
+        # Current Roster Section
+        st.subheader("Current Roster")
+        roster_data = get_current_roster()
+        
+        if roster_data.get("count", 0) > 0:
+            roster = roster_data.get("roster", [])
+            
+            st.success(f"✅ {roster_data['count']} assignments loaded")
+            
+            # Convert to DataFrame for display
+            roster_df = pd.DataFrame(roster)
+            
+            # Show summary statistics
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Total Assignments", len(roster))
+            with col2:
+                unique_personnel = roster_df['PersonnelID'].nunique() if 'PersonnelID' in roster_df.columns else 0
+                st.metric("Unique Personnel", unique_personnel)
+            with col3:
+                unique_dates = roster_df['StartDateTZ'].nunique() if 'StartDateTZ' in roster_df.columns else 0
+                st.metric("Unique Dates", unique_dates)
+            
+            st.markdown("---")
+            
+            # Display roster table with key fields
+            if not roster_df.empty:
+                # Select key columns to display
+                display_columns = []
+                if 'PersonnelID' in roster_df.columns:
+                    display_columns.append('PersonnelID')
+                if 'PersonnelName' in roster_df.columns:
+                    display_columns.append('PersonnelName')
+                if 'StartDateTZ' in roster_df.columns:
+                    display_columns.append('StartDateTZ')
+                if 'StartTime' in roster_df.columns:
+                    display_columns.append('StartTime')
+                if 'EndTime' in roster_df.columns:
+                    display_columns.append('EndTime')
+                if 'LocationName' in roster_df.columns:
+                    display_columns.append('LocationName')
+                if 'DeploymentItemID' in roster_df.columns:
+                    display_columns.append('DeploymentItemID')
+                
+                if display_columns:
+                    st.dataframe(
+                        roster_df[display_columns],
+                        use_container_width=True,
+                        height=400
+                    )
+                else:
+                    st.dataframe(roster_df, use_container_width=True, height=400)
+                
+                # Expandable section for full JSON
+                with st.expander("🔍 View Full Roster JSON"):
+                    st.json(roster)
+        else:
+            st.info("ℹ️ No roster currently loaded. Upload a roster file in the 'Upload Roster' tab.")
+        
+        st.markdown("---")
+        
+        # Roster Upload Logs Section
+        st.subheader("📜 Roster Upload History")
+        logs_data = get_roster_logs()
+        
+        if logs_data.get("status") == "ok" and logs_data.get("logs"):
+            logs = logs_data["logs"]
+            logs_df = pd.DataFrame(logs)
+            
+            # Format timestamp
+            if 'uploaded_at' in logs_df.columns:
+                logs_df['uploaded_at'] = pd.to_datetime(logs_df['uploaded_at']).dt.strftime('%Y-%m-%d %H:%M:%S')
+            
+            st.dataframe(
+                logs_df,
+                use_container_width=True,
+                column_config={
+                    "id": "Log ID",
+                    "uploaded_at": "Upload Time",
+                    "assignments_count": "Assignments",
+                    "source": "Source"
+                },
+                hide_index=True
+            )
+        else:
+            st.info("ℹ️ No roster upload history available.")
+    
+    # Tab 3: Status Dashboard
+    with tab3:
         st.header("📊 Assignment Status Dashboard")
         st.markdown("View all roster assignments with their clock-in/out status")
         
@@ -334,8 +458,8 @@ def main():
             else:
                 st.warning("No records match the selected filters.")
     
-    # Tab 3: Statistics
-    with tab3:
+    # Tab 4: Statistics
+    with tab4:
         st.header("📈 Statistics & Metrics")
         
         stats = get_stats()
@@ -394,8 +518,8 @@ def main():
         else:
             st.warning("⚠️ Database file not found. Run a simulation to create it.")
     
-    # Tab 4: About
-    with tab4:
+    # Tab 5: About
+    with tab5:
         st.header("ℹ️ About Titus Simulator")
         
         st.markdown("""
@@ -443,7 +567,7 @@ def main():
         
         ### Links
         
-        - 📚 [API Documentation](http://localhost:8000/docs)
+        - 📚 [API Documentation](http://localhost:8085/docs)
         - 📖 [Usage Guide](../USAGE.md)
         - 🚀 [Getting Started](../GETTING_STARTED.md)
         

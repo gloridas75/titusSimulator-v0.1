@@ -48,7 +48,80 @@
 						"upload-roster"
 					]
 				},
-				"description": "Upload roster data (NGRS format) to the simulator. This endpoint accepts the complete NGRS roster JSON with __metadata structure."
+				"description": "Upload roster data (NGRS format) to the simulator. This endpoint accepts the complete NGRS roster JSON with __metadata structure and returns a RequestId for each PersonnelId."
+			},
+			"response": [
+				{
+					"name": "Success Response",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"FunctionName\": \"POC-NGRSIntegration\",\n    \"list_item\": {\n        \"data\": {\n            \"d\": {\n                \"results\": [\n                    {\n                        \"__metadata\": {\n                            \"PersonnelId\": \"00037056\"\n                        }\n                    },\n                    {\n                        \"__metadata\": {\n                            \"PersonnelId\": \"00012345\"\n                        }\n                    }\n                ]\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/upload-roster",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"upload-roster"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true,\n    \"results\": [\n        {\n            \"PersonnelId\": \"00037056\",\n            \"RequestId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\"\n        },\n        {\n            \"PersonnelId\": \"00012345\",\n            \"RequestId\": \"b2c3d4e5-f6a7-8901-bcde-f12345678901\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Current Roster",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/roster",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"roster"
+					]
+				},
+				"description": "Retrieve the currently uploaded roster data."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Roster Upload Logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/roster-logs",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"roster-logs"
+					]
+				},
+				"description": "Retrieve roster upload history with timestamps and counts."
 			},
 			"response": []
 		},
@@ -166,7 +239,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:8000",
+			"value": "http://localhost:8085",
 			"type": "string"
 		},
 		{

@@ -32,9 +32,9 @@ pip install -q streamlit pandas httpx
 
 echo ""
 echo -e "${GREEN}Starting Web UI...${NC}"
-echo -e "${BLUE}UI will be available at: http://localhost:8501${NC}"
-echo -e "${YELLOW}Make sure the API server is running on port 8000${NC}"
+echo -e "${BLUE}UI will be available at: http://localhost:8086${NC}"
+echo -e "${YELLOW}Make sure the API server is running on port 8085${NC}"
 echo ""
 
 # Start Streamlit
-streamlit run streamlit_ui.py
+streamlit run streamlit_ui.py --server.port 8086

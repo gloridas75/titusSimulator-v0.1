@@ -16,7 +16,7 @@
       ▼                              ▼
   ┌─────────┐                  ┌─────────┐
   │   API   │◄─────────────────│   UI    │
-  │  :8000  │      HTTP        │  :8501  │
+  │  :8085  │      HTTP        │  :8086  │
   └────┬────┘                  └─────────┘
        │
        │ Fetches Roster
@@ -56,8 +56,7 @@ make setup
 # Edit .env file
 nano .env
 
-# Required settings:
-NGRS_ROSTER_URL=http://your-ngrs:8080/api/integration/titus/roster
+# Required settings (Note: NGRS will POST roster data directly to Titus):
 NGRS_CLOCKING_URL=http://your-ngrs:8080/api/integration/titus/clocking
 ```
 
@@ -100,8 +99,8 @@ streamlit run streamlit_ui.py
 
 Open your browser:
 
-- **API Docs**: http://localhost:8000/docs
-- **Web UI**: http://localhost:8501
+- **API Docs**: http://localhost:8085/docs
+- **Web UI**: http://localhost:8086
 
 ### 5️⃣ Test
 
@@ -133,7 +132,7 @@ In the Web UI:
 
 ## What Each Service Does
 
-### API Server (Port 8000)
+### API Server (Port 8085)
 
 - ✅ Accepts REST API requests
 - 🔄 Runs background scheduler (every 60s)
@@ -141,7 +140,7 @@ In the Web UI:
 - 💾 Manages SQLite database
 - 📊 Provides statistics endpoint
 
-### Web UI (Port 8501)
+### Web UI (Port 8086)
 
 - 🖥️ Beautiful web interface
 - 📤 Upload roster files
@@ -175,9 +174,9 @@ pkill -f streamlit
 
 | Service | Port | URL |
 |---------|------|-----|
-| API | 8000 | http://localhost:8000 |
-| API Docs | 8000 | http://localhost:8000/docs |
-| Web UI | 8501 | http://localhost:8501 |
+| API | 8085 | http://localhost:8085 |
+| API Docs | 8085 | http://localhost:8085/docs |
+| Web UI | 8086 | http://localhost:8086 |
 | NGRS (your) | 8080 | http://localhost:8080 |
 
 ## Troubleshooting
@@ -185,8 +184,8 @@ pkill -f streamlit
 ### Port Already in Use
 
 ```bash
-# Find what's using port 8000
-lsof -i :8000
+# Find what's using port 8085
+lsof -i :8085
 
 # Kill the process
 kill -9 <PID>
@@ -198,7 +197,7 @@ uvicorn titus_simulator.api:app --port 8001
 ### API Not Running (in UI)
 
 1. Check Terminal 1 - is API still running?
-2. Try: `curl http://localhost:8000/health`
+2. Try: `curl http://localhost:8085/health`
 3. Restart API: `make run`
 
 ### Database Not Found
@@ -208,7 +207,7 @@ uvicorn titus_simulator.api:app --port 8001
 ls -la sim_state.db
 
 # If missing, trigger a simulation
-curl -X POST http://localhost:8000/run-once
+curl -X POST http://localhost:8085/run-once
 # Or use UI: Click "Run Simulation Now"
 ```
 
@@ -259,18 +258,17 @@ streamlit run streamlit_ui.py --server.address=0.0.0.0
 docker build -t titus-simulator .
 
 # Run API
-docker run -p 8000:8000 --env-file .env titus-simulator
+docker run -p 8085:8085 --env-file .env titus-simulator
 
 # Run UI (separate container)
-docker run -p 8501:8501 streamlit-ui
+docker run -p 8086:8086 streamlit-ui
 ```
 
 ## Environment Variables Summary
 
 ```env
-# Required
-NGRS_ROSTER_URL=...          # Where to fetch roster
-NGRS_CLOCKING_URL=...        # Where to send events
+# Required (Note: NGRS POSTs roster data directly to Titus Simulator)
+NGRS_CLOCKING_URL=...        # Where to send clocking events
 
 # Optional
 NGRS_API_KEY=...             # API authentication
@@ -283,17 +281,17 @@ DATABASE_PATH=sim_state.db   # SQLite file path
 
 ### Check Health
 ```bash
-curl http://localhost:8000/health
+curl http://localhost:8085/health
 ```
 
 ### Get Statistics
 ```bash
-curl http://localhost:8000/stats
+curl http://localhost:8085/stats
 ```
 
 ### Trigger Manually
 ```bash
-curl -X POST http://localhost:8000/run-once
+curl -X POST http://localhost:8085/run-once
 ```
 
 ### Or Use Web UI
@@ -328,7 +326,7 @@ titusSimulator-v0.1/
 - 📖 **USAGE.md** - Detailed usage guide
 - 🎨 **UI_GUIDE.md** - Web UI documentation
 - 🚀 **GETTING_STARTED.md** - Setup guide
-- 📚 API Docs: http://localhost:8000/docs
+- 📚 API Docs: http://localhost:8085/docs
 
 ---
 

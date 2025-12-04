@@ -4,14 +4,13 @@ A Python-based time-attendance simulation service that integrates with the NGRS 
 
 ## Features
 
-- Fetches roster assignments from NGRS API
+- Receives roster assignments from NGRS via direct POST to `/upload-roster` endpoint
 - Simulates realistic clock-in/out events with timing variations
 - Prevents duplicate event generation using SQLite state tracking
 - Runs as a FastAPI service with REST endpoints
 - Background scheduler for automatic periodic simulation
 - Configurable via environment variables
-- **Web UI** for easy testing and monitoring (Streamlit-based)
-- **Roster Converter** - Transform external shift assignment formats to NGRS format
+- **Web UI** for easy testing, monitoring, and roster management (Streamlit-based)
 
 ## Tech Stack
 
@@ -39,7 +38,7 @@ pip install -e ".[dev]"
 Create a `.env` file in the project root:
 
 ```env
-NGRS_ROSTER_URL=http://localhost:8080/api/integration/titus/roster
+# Note: NGRS will POST roster data directly to Titus Simulator's /upload-roster endpoint
 NGRS_CLOCKING_URL=http://localhost:8080/api/integration/titus/clocking
 NGRS_API_KEY=dev-token
 POLL_INTERVAL_SECONDS=60
@@ -51,7 +50,7 @@ DATABASE_PATH=sim_state.db
 
 ```bash
 # Start the server
-uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8000
+uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085
 
 # In development with auto-reload
 uvicorn titus_simulator.api:app --reload
@@ -70,7 +69,7 @@ streamlit run streamlit_ui.py
 
 ## Web UI
 
-Access the intuitive web interface at http://localhost:8501
+Access the intuitive web interface at http://localhost:8086
 
 - 📤 Upload and validate roster JSON files
 - ▶️ Trigger simulations with one click
@@ -78,46 +77,38 @@ Access the intuitive web interface at http://localhost:8501
 - 📈 Monitor statistics and completion rates
 - 🎨 Color-coded status indicators
 
-See [UI_GUIDE.md](docs/UI_GUIDE.md) for detailed UI documentation.
+## Documentation
 
-## Roster Converter
+### Guides
+- [Getting Started](implementation_docs/guides/GETTING_STARTED.md) - Quick start guide
+- [Usage Guide](implementation_docs/guides/USAGE.md) - Detailed usage instructions
+- [Quickstart](implementation_docs/guides/QUICKSTART.md) - Fast setup guide
+- [UI Guide](implementation_docs/guides/UI_GUIDE.md) - Web interface documentation
 
-Convert external shift assignment formats to NGRS-compatible roster format:
+### Deployment
+- [Deployment Guide](implementation_docs/deployment/DEPLOYMENT.md) - Production deployment
+- [Quick Deployment](implementation_docs/deployment/QUICKSTART_DEPLOYMENT.md) - Fast deploy checklist
 
-```bash
-# View summary of assignments
-python roster_converter.py output.json --summary
-
-# Convert to NGRS format
-python roster_converter.py output.json -o converted_roster.json
-
-# Filter by date range
-python roster_converter.py output.json \
-  --start-date 2026-01-05 \
-  --end-date 2026-01-10 \
-  -o weekly_roster.json
-```
-
-After conversion, upload `converted_roster.json` via the Web UI or use it with the API.
-
-See [CONVERTER_GUIDE.md](docs/CONVERTER_GUIDE.md) for complete documentation.
+### Technical
+- [JSON Schemas](implementation_docs/JSON_SCHEMAS.md) - API data formats
+- [Postman Collection](postman/README.md) - API testing
 
 ## Testing
 
 ```bash
 # Health check
-curl http://localhost:8000/health
+curl http://localhost:8085/health
 
 # Trigger manual simulation
-curl -X POST http://localhost:8000/run-once
+curl -X POST http://localhost:8085/run-once
 ```
 
 ## How It Works
 
-1. **Fetch Roster**: Retrieves scheduled deployments from NGRS
+1. **Receive Roster**: NGRS posts scheduled deployments directly to `/upload-roster` endpoint
 2. **Plan Events**: Generates clock-in/out events with realistic timing variations
 3. **Check State**: Verifies which events have already been sent using SQLite
-4. **Send Events**: Posts new simulated events to NGRS clocking API
+4. **Send Events**: Posts simulated clocking events to NGRS clocking API
 5. **Update State**: Marks events as sent in the database
 
 The simulator runs automatically in the background based on the configured poll interval.

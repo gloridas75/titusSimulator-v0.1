@@ -12,8 +12,6 @@ help:
 	@echo "  make clean      - Clean up generated files"
 	@echo "  make docs       - Open API documentation"
 	@echo "  make setup      - First-time setup"
-	@echo "  make convert    - Convert roster file (usage: make convert FILE=input.json)"
-	@echo "  make summary    - Show roster summary (usage: make summary FILE=input.json)"
 	@echo ""
 
 setup:
@@ -87,21 +85,3 @@ stats:
 	@echo "Getting statistics..."
 	@curl -s http://localhost:8000/stats | python3 -m json.tool
 
-convert:
-	@if [ -z "$(FILE)" ]; then \
-		echo "Usage: make convert FILE=input.json [OUTPUT=output.json]"; \
-		exit 1; \
-	fi
-	@if [ -n "$(OUTPUT)" ]; then \
-		python roster_converter.py $(FILE) -o $(OUTPUT); \
-	else \
-		python roster_converter.py $(FILE) -o converted_roster.json; \
-		echo "Output saved to: converted_roster.json"; \
-	fi
-
-summary:
-	@if [ -z "$(FILE)" ]; then \
-		echo "Usage: make summary FILE=input.json"; \
-		exit 1; \
-	fi
-	@python roster_converter.py $(FILE) --summary

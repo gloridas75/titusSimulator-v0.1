@@ -1,0 +1,14 @@
+# Core dependencies
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+httpx>=0.25.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+python-dotenv>=1.0.0
+aiosqlite>=0.19.0
+apscheduler>=3.10.0
+loguru>=0.7.0
+
+# Web UI dependencies
+streamlit>=1.28.0
+pandas>=2.0.0

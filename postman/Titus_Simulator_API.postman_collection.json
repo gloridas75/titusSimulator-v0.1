@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "Titus Simulator API",
+		"description": "API collection for testing Titus Simulator endpoints. This collection includes all API endpoints for roster management, simulation triggers, and status monitoring.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "Check if the Titus Simulator API is running and healthy."
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Roster Data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"FunctionName\": \"POC-NGRSIntegration\",\n    \"list_item\": {\n        \"data\": {\n            \"d\": {\n                \"results\": [\n                    {\n                        \"__metadata\": {\n                            \"PersonnelId\": \"00037056\",\n                            \"personnel_first_name\": \"Cheng Fong\",\n                            \"personnel_last_name\": \"Lee\",\n                            \"PersonnelType\": \"01\",\n                            \"PersonnelTypeDescription\": \"APO\",\n                            \"SecSeqNum\": \"01\",\n                            \"PrimarySeqNum\": \"001\",\n                            \"demand_item_id\": \"DI-8000122864-000020\",\n                            \"customer_id\": \"103936\",\n                            \"customer_name\": \"BANK OF CHINA LIMITED\",\n                            \"deployment_location\": \"Bank Of China - Westgate\",\n                            \"deployment_date\": \"/Date(1735689600000)/\",\n                            \"deploymentItm\": \"065A7B378D781FD0869E4BA3E5FE1484\",\n                            \"planner_group_id\": \"B5W\",\n                            \"plant\": \"4120\",\n                            \"planned_start_time\": \"PT10H15M00S\",\n                            \"planned_end_time\": \"PT19H15M00S\",\n                            \"demand_type\": \"01\"\n                        }\n                    },\n                    {\n                        \"__metadata\": {\n                            \"PersonnelId\": \"00012345\",\n                            \"personnel_first_name\": \"John\",\n                            \"personnel_last_name\": \"Doe\",\n                            \"PersonnelType\": \"01\",\n                            \"PersonnelTypeDescription\": \"APO\",\n                            \"SecSeqNum\": \"01\",\n                            \"PrimarySeqNum\": \"002\",\n                            \"demand_item_id\": \"DI-8000122864-000021\",\n                            \"customer_id\": \"103936\",\n                            \"customer_name\": \"BANK OF CHINA LIMITED\",\n                            \"deployment_location\": \"Bank Of China - Westgate\",\n                            \"deployment_date\": \"/Date(1735776000000)/\",\n                            \"deploymentItm\": \"065A7B378D781FD0869E4BA3E5FE3485\",\n                            \"planner_group_id\": \"B5W\",\n                            \"plant\": \"4120\",\n                            \"planned_start_time\": \"PT08H00M00S\",\n                            \"planned_end_time\": \"PT17H00M00S\",\n                            \"demand_type\": \"01\"\n                        }\n                    }\n                ],\n                \"summary\": [\n                    {\n                        \"__metadata\": {\n                            \"deployment_item\": \"065A7B378D781FD0869E4BA3E5FE1484\",\n                            \"totalQty\": 1,\n                            \"changedTime\": 20251203120000\n                        }\n                    },\n                    {\n                        \"__metadata\": {\n                            \"deployment_item\": \"065A7B378D781FD0869E4BA3E5FE3485\",\n                            \"totalQty\": 1,\n                            \"changedTime\": 20251203120001\n                        }\n                    }\n                ]\n            }\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/upload-roster",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"upload-roster"
+					]
+				},
+				"description": "Upload roster data (NGRS format) to the simulator. This endpoint accepts the complete NGRS roster JSON with __metadata structure."
+			},
+			"response": []
+		},
+		{
+			"name": "Run Simulation from Uploaded File",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/run-from-file",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"run-from-file"
+					]
+				},
+				"description": "Trigger simulation using previously uploaded roster data. Generates clock-in/out events for all assignments."
+			},
+			"response": []
+		},
+		{
+			"name": "Run Simulation by Date",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/run-once?date=2026-01-15",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"run-once"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2026-01-15",
+							"description": "Target date in YYYY-MM-DD format"
+						}
+					]
+				},
+				"description": "Fetch roster from NGRS API for a specific date and run simulation. Requires NGRS API to be accessible."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Statistics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/stats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"stats"
+					]
+				},
+				"description": "Retrieve simulation statistics including total events generated, sent events, and completion rates."
+			},
+			"response": []
+		},
+		{
+			"name": "NGRS - Receive Clocking Event (Mock)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{ngrs_api_key}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"BuWerks\": \"4120\",\n    \"ClockedDateTime\": \"20260115093022\",\n    \"ClockedDeviceId\": \"SIM-10.0.0.5\",\n    \"ClockedStatus\": \"IN\",\n    \"ClockingId\": \"00c2awe0-96f9-4dba-a891-83014e23447a\",\n    \"PersonnelId\": \"00037056\",\n    \"RequestId\": \"4aaweu6e-42be-4957-bsd5-3f721e8f4020\",\n    \"SendFrom\": \"titusSimulator\"\n}"
+				},
+				"url": {
+					"raw": "{{ngrs_clocking_url}}",
+					"host": [
+						"{{ngrs_clocking_url}}"
+					]
+				},
+				"description": "Mock endpoint representing NGRS Clocking API. This is where Titus Simulator sends clock-in/out events. Use this to test the clocking event format."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "ngrs_clocking_url",
+			"value": "http://localhost:8080/api/integration/titus/clocking",
+			"type": "string"
+		},
+		{
+			"key": "ngrs_api_key",
+			"value": "your-api-key-here",
+			"type": "string"
+		}
+	]
+}

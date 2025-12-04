@@ -1,0 +1,115 @@
+{
+  "FunctionName": "getRoster",
+  "list_item": {
+    "data": {
+      "d": {
+        "results": [
+          {
+            "PersonnelId": "P001",
+            "personnel_first_name": "John",
+            "personnel_last_name": "Doe",
+            "PersonnelType": "Officer",
+            "PersonnelTypeDescription": "Security Officer",
+            "SecSeqNum": "1",
+            "PrimarySeqNum": "1",
+            "demand_item_id": "D001",
+            "customer_id": "C001",
+            "customer_name": "Test Customer A",
+            "deployment_location": "Main Building - Lobby",
+            "deployment_date": "/Date(1733097600000)/",
+            "deploymentItm": "DEPLOY001",
+            "planner_group_id": "PG001",
+            "plant": "PLANT001",
+            "planned_start_time": "PT8H0M0S",
+            "planned_end_time": "PT17H0M0S",
+            "demand_type": "Regular"
+          },
+          {
+            "PersonnelId": "P002",
+            "personnel_first_name": "Jane",
+            "personnel_last_name": "Smith",
+            "PersonnelType": "Officer",
+            "PersonnelTypeDescription": "Security Officer",
+            "SecSeqNum": "2",
+            "PrimarySeqNum": "2",
+            "demand_item_id": "D002",
+            "customer_id": "C001",
+            "customer_name": "Test Customer A",
+            "deployment_location": "Main Building - Entrance",
+            "deployment_date": "/Date(1733097600000)/",
+            "deploymentItm": "DEPLOY002",
+            "planner_group_id": "PG001",
+            "plant": "PLANT001",
+            "planned_start_time": "PT9H0M0S",
+            "planned_end_time": "PT18H0M0S",
+            "demand_type": "Regular"
+          },
+          {
+            "PersonnelId": "P003",
+            "personnel_first_name": "Mike",
+            "personnel_last_name": "Johnson",
+            "PersonnelType": "Supervisor",
+            "PersonnelTypeDescription": "Security Supervisor",
+            "SecSeqNum": "3",
+            "PrimarySeqNum": "3",
+            "demand_item_id": "D003",
+            "customer_id": "C002",
+            "customer_name": "Test Customer B",
+            "deployment_location": "Warehouse - Gate A",
+            "deployment_date": "/Date(1733097600000)/",
+            "deploymentItm": "DEPLOY003",
+            "planner_group_id": "PG002",
+            "plant": "PLANT002",
+            "planned_start_time": "PT7H30M0S",
+            "planned_end_time": "PT16H30M0S",
+            "demand_type": "Regular"
+          },
+          {
+            "PersonnelId": "P004",
+            "personnel_first_name": "Sarah",
+            "personnel_last_name": "Williams",
+            "PersonnelType": "Officer",
+            "PersonnelTypeDescription": "Security Officer",
+            "SecSeqNum": "4",
+            "PrimarySeqNum": "4",
+            "demand_item_id": "D004",
+            "customer_id": "C002",
+            "customer_name": "Test Customer B",
+            "deployment_location": "Warehouse - Patrol",
+            "deployment_date": "/Date(1733097600000)/",
+            "deploymentItm": "DEPLOY004",
+            "planner_group_id": "PG002",
+            "plant": "PLANT002",
+            "planned_start_time": "PT10H0M0S",
+            "planned_end_time": "PT19H0M0S",
+            "demand_type": "Regular"
+          },
+          {
+            "PersonnelId": "P005",
+            "personnel_first_name": "David",
+            "personnel_last_name": "Brown",
+            "PersonnelType": "Officer",
+            "PersonnelTypeDescription": "Security Officer",
+            "SecSeqNum": "5",
+            "PrimarySeqNum": "5",
+            "demand_item_id": "D005",
+            "customer_id": "C003",
+            "customer_name": "Test Customer C",
+            "deployment_location": "Office Complex - Reception",
+            "deployment_date": "/Date(1733097600000)/",
+            "deploymentItm": "DEPLOY005",
+            "planner_group_id": "PG003",
+            "plant": "PLANT003",
+            "planned_start_time": "PT8H30M0S",
+            "planned_end_time": "PT17H30M0S",
+            "demand_type": "Regular"
+          }
+        ],
+        "summary": {
+          "total_count": 5,
+          "date": "2024-12-02"
+        }
+      }
+    }
+  }
+}

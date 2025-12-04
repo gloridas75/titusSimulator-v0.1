@@ -1,0 +1,15 @@
+[Unit]
+Description=Titus Simulator Web UI (Streamlit)
+After=network.target titus-simulator.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/titusSimulator-v0.1
+Environment="PATH=/home/ubuntu/titusSimulator-v0.1/venv/bin"
+ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/streamlit run streamlit_ui.py --server.port 8501 --server.address 0.0.0.0
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

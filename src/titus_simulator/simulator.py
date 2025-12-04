@@ -124,6 +124,7 @@ class TitusSimulator:
         logger.info(f"Processing {len(assignments)} assignments")
         
         events_to_send = []
+        event_to_assignment = {}  # Map event to its assignment for state tracking
         
         for assignment in assignments:
             deployment_id = assignment.deployment_item_id
@@ -140,8 +141,10 @@ class TitusSimulator:
             for event in planned_events:
                 if event.ClockedStatus == "IN" and not has_in:
                     events_to_send.append(event)
+                    event_to_assignment[id(event)] = assignment
                 elif event.ClockedStatus == "OUT" and not has_out:
                     events_to_send.append(event)
+                    event_to_assignment[id(event)] = assignment
         
         if not events_to_send:
             logger.info("All events for this date have already been sent")
@@ -230,6 +233,7 @@ class TitusSimulator:
         logger.info(f"Successfully parsed {len(assignments)} assignments")
         
         events_to_send = []
+        event_to_assignment = {}  # Map event to its assignment for state tracking
         
         for assignment in assignments:
             deployment_id = assignment.deployment_item_id
@@ -246,8 +250,10 @@ class TitusSimulator:
             for event in planned_events:
                 if event.ClockedStatus == "IN" and not has_in:
                     events_to_send.append(event)
+                    event_to_assignment[id(event)] = assignment
                 elif event.ClockedStatus == "OUT" and not has_out:
                     events_to_send.append(event)
+                    event_to_assignment[id(event)] = assignment
         
         if not events_to_send:
             logger.info("All events have already been sent")
@@ -265,15 +271,16 @@ class TitusSimulator:
         # Update state store regardless of send success (for testing)
         now = datetime.now()
         for event in events_to_send:
+            assignment = event_to_assignment[id(event)]
             if event.ClockedStatus == "IN":
                 await self.state_store.mark_in_sent(
-                    event.DeploymentItemId,
+                    assignment.deployment_item_id,
                     event.PersonnelId,
                     now,
                 )
             elif event.ClockedStatus == "OUT":
                 await self.state_store.mark_out_sent(
-                    event.DeploymentItemId,
+                    assignment.deployment_item_id,
                     event.PersonnelId,
                     now,
                 )

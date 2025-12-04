@@ -7,9 +7,12 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # NGRS API endpoints
-    ngrs_roster_url: str
     ngrs_clocking_url: str
     ngrs_api_key: str | None = None
+    
+    # Port configuration
+    titus_api_port: int = 8087
+    titus_ui_port: int = 8088
     
     # Scheduler settings
     poll_interval_seconds: int = 60

@@ -206,7 +206,13 @@ class TitusSimulator:
         
         for raw_data in roster_results:
             try:
-                metadata = RawRosterMetadata(**raw_data)
+                # Extract __metadata from the nested structure
+                metadata_dict = raw_data.get("__metadata", {})
+                if not metadata_dict:
+                    logger.warning(f"No __metadata found in roster item")
+                    continue
+                    
+                metadata = RawRosterMetadata(**metadata_dict)
                 assignment = RosterAssignment.from_raw(metadata, tz)
                 assignments.append(assignment)
             except Exception as e:

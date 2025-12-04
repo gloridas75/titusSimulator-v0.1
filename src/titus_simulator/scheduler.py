@@ -1,9 +1,10 @@
 """APScheduler integration for periodic background jobs."""
 
 import asyncio
-from datetime import date
+from datetime import date, time
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 from fastapi import FastAPI
 from loguru import logger
@@ -43,12 +44,30 @@ def setup_scheduler(
         except Exception as e:
             logger.error(f"Error in scheduled job: {e}", exc_info=True)
     
-    # Schedule the job at the configured interval
+    async def cleanup_job():
+        """Job that runs daily at 2 AM to cleanup old event records."""
+        try:
+            logger.info("Running daily cleanup job")
+            deleted = await store.cleanup_old_events(days_to_keep=2)
+            logger.info(f"Daily cleanup completed: {deleted} records removed")
+        except Exception as e:
+            logger.error(f"Error in cleanup job: {e}", exc_info=True)
+    
+    # Schedule the simulation cycle at the configured interval
     scheduler.add_job(
         scheduled_job,
         trigger=IntervalTrigger(seconds=settings.poll_interval_seconds),
         id="simulation_cycle",
         name="Run simulation cycle",
+        replace_existing=True,
+    )
+    
+    # Schedule daily cleanup at 2 AM
+    scheduler.add_job(
+        cleanup_job,
+        trigger=CronTrigger(hour=2, minute=0),
+        id="daily_cleanup",
+        name="Daily cleanup of old records",
         replace_existing=True,
     )
     

@@ -297,5 +297,267 @@ class TitusSimulator:
             "events_generated": len(events_to_send),
             "ngrs_available": send_successful,
         }
+    
+    async def run_immediate_mode(self, roster_results: list[dict]) -> dict:
+        """
+        Immediate mode: Generate all events, post immediately, cleanup.
+        
+        Generates IN/OUT events for all assignments regardless of current time,
+        applies random time variations, posts all events to NGRS immediately,
+        and cleans up the database after successful posting.
+        
+        Args:
+            roster_results: List of roster assignment dictionaries
+            
+        Returns:
+            Summary dictionary with statistics
+        """
+        logger.info(f"Starting IMMEDIATE mode simulation with {len(roster_results)} assignments")
+        
+        # Parse roster data
+        from .models import RawRosterMetadata
+        from zoneinfo import ZoneInfo
+        
+        tz = ZoneInfo(self.settings.timezone)
+        assignments = []
+        
+        for raw_data in roster_results:
+            try:
+                metadata_dict = raw_data.get("__metadata", {})
+                if not metadata_dict:
+                    continue
+                metadata = RawRosterMetadata(**metadata_dict)
+                assignment = RosterAssignment.from_raw(metadata, tz)
+                assignments.append(assignment)
+            except Exception as e:
+                logger.warning(f"Failed to parse assignment: {e}")
+                continue
+        
+        if not assignments:
+            logger.warning("No valid assignments could be parsed")
+            return {
+                "mode": "immediate",
+                "assignments_found": len(roster_results),
+                "assignments_parsed": 0,
+                "events_generated": 0,
+                "events_posted": 0,
+                "records_cleaned": 0,
+            }
+        
+        logger.info(f"Parsed {len(assignments)} assignments")
+        
+        # Generate ALL events (IN + OUT) for all assignments
+        all_events = []
+        event_to_assignment = {}
+        
+        for assignment in assignments:
+            planned_events = self.plan_events_for_assignment(assignment)
+            for event in planned_events:
+                all_events.append(event)
+                event_to_assignment[id(event)] = assignment
+        
+        logger.info(f"Generated {len(all_events)} events")
+        
+        if not all_events:
+            return {
+                "mode": "immediate",
+                "assignments_found": len(roster_results),
+                "assignments_parsed": len(assignments),
+                "events_generated": 0,
+                "events_posted": 0,
+                "records_cleaned": 0,
+            }
+        
+        # Post all events to NGRS immediately
+        logger.info(f"Posting {len(all_events)} events to NGRS")
+        send_successful = await self.clocking_client.send_events(all_events)
+        
+        events_posted = len(all_events) if send_successful else 0
+        
+        # Track in database
+        now = datetime.now()
+        deployment_ids = set()
+        
+        for event in all_events:
+            assignment = event_to_assignment[id(event)]
+            deployment_ids.add((assignment.deployment_item_id, event.PersonnelId))
+            
+            if event.ClockedStatus == "IN":
+                await self.state_store.mark_in_sent(
+                    assignment.deployment_item_id,
+                    event.PersonnelId,
+                    now,
+                )
+            elif event.ClockedStatus == "OUT":
+                await self.state_store.mark_out_sent(
+                    assignment.deployment_item_id,
+                    event.PersonnelId,
+                    now,
+                )
+        
+        # Cleanup posted records
+        records_cleaned = 0
+        if send_successful:
+            records_cleaned = await self.state_store.cleanup_posted_events(list(deployment_ids))
+        
+        logger.info(
+            f"IMMEDIATE mode complete: {events_posted}/{len(all_events)} posted, "
+            f"{records_cleaned} records cleaned"
+        )
+        
+        return {
+            "mode": "immediate",
+            "assignments_found": len(roster_results),
+            "assignments_parsed": len(assignments),
+            "events_generated": len(all_events),
+            "events_posted": events_posted,
+            "records_cleaned": records_cleaned,
+            "ngrs_available": send_successful,
+        }
+    
+    async def run_realtime_mode(self, roster_results: list[dict]) -> dict:
+        """
+        Realtime mode: Generate events based on actual shift timing.
+        
+        Only generates and sends events for shifts happening "now" (within 15-minute window).
+        For overdue shifts (started hours ago), sends IN event immediately.
+        Events are sent as they become due.
+        
+        Args:
+            roster_results: List of roster assignment dictionaries
+            
+        Returns:
+            Summary dictionary with statistics
+        """
+        logger.info(f"Starting REALTIME mode simulation with {len(roster_results)} assignments")
+        
+        # Parse roster data
+        from .models import RawRosterMetadata
+        from zoneinfo import ZoneInfo
+        
+        tz = ZoneInfo(self.settings.timezone)
+        assignments = []
+        
+        for raw_data in roster_results:
+            try:
+                metadata_dict = raw_data.get("__metadata", {})
+                if not metadata_dict:
+                    continue
+                metadata = RawRosterMetadata(**metadata_dict)
+                assignment = RosterAssignment.from_raw(metadata, tz)
+                assignments.append(assignment)
+            except Exception as e:
+                logger.warning(f"Failed to parse assignment: {e}")
+                continue
+        
+        if not assignments:
+            logger.warning("No valid assignments could be parsed")
+            return {
+                "mode": "realtime",
+                "assignments_found": len(roster_results),
+                "assignments_parsed": 0,
+                "events_generated": 0,
+                "events_posted": 0,
+            }
+        
+        logger.info(f"Parsed {len(assignments)} assignments")
+        
+        # Determine current time and time window
+        now = datetime.now(tz)
+        window_start = now - timedelta(minutes=15)  # 15-minute window
+        
+        events_to_send = []
+        event_to_assignment = {}
+        
+        for assignment in assignments:
+            deployment_id = assignment.deployment_item_id
+            personnel_id = assignment.personnel_id
+            
+            # Check what has already been sent
+            has_in = await self.state_store.has_in_sent(deployment_id, personnel_id)
+            has_out = await self.state_store.has_out_sent(deployment_id, personnel_id)
+            
+            # Generate events with variations
+            planned_events = self.plan_events_for_assignment(assignment)
+            
+            for event in planned_events:
+                should_send = False
+                
+                if event.ClockedStatus == "IN" and not has_in:
+                    # IN event: send if shift start is within window or overdue
+                    event_time_str = event.ClockedDateTime  # YYYYMMDDHHMMSS
+                    event_time = datetime.strptime(event_time_str, "%Y%m%d%H%M%S")
+                    event_time = tz.localize(event_time)
+                    
+                    if event_time <= now:  # Overdue or due now
+                        should_send = True
+                        logger.debug(f"IN event for {personnel_id} is overdue/due - sending immediately")
+                    elif event_time <= now + timedelta(minutes=15):  # Within window
+                        should_send = True
+                        logger.debug(f"IN event for {personnel_id} is within window - sending")
+                
+                elif event.ClockedStatus == "OUT" and not has_out:
+                    # OUT event: send if shift end is within window or overdue
+                    event_time_str = event.ClockedDateTime
+                    event_time = datetime.strptime(event_time_str, "%Y%m%d%H%M%S")
+                    event_time = tz.localize(event_time)
+                    
+                    if event_time <= now:  # Overdue or due now
+                        should_send = True
+                        logger.debug(f"OUT event for {personnel_id} is overdue/due - sending immediately")
+                    elif event_time <= now + timedelta(minutes=15):  # Within window
+                        should_send = True
+                        logger.debug(f"OUT event for {personnel_id} is within window - sending")
+                
+                if should_send:
+                    events_to_send.append(event)
+                    event_to_assignment[id(event)] = assignment
+        
+        if not events_to_send:
+            logger.info("No events are due at this time")
+            return {
+                "mode": "realtime",
+                "assignments_found": len(roster_results),
+                "assignments_parsed": len(assignments),
+                "events_generated": 0,
+                "events_posted": 0,
+            }
+        
+        # Send events
+        logger.info(f"Sending {len(events_to_send)} due events to NGRS")
+        send_successful = await self.clocking_client.send_events(events_to_send)
+        
+        events_posted = len(events_to_send) if send_successful else 0
+        
+        # Track in database
+        now_utc = datetime.now()
+        for event in events_to_send:
+            assignment = event_to_assignment[id(event)]
+            
+            if event.ClockedStatus == "IN":
+                await self.state_store.mark_in_sent(
+                    assignment.deployment_item_id,
+                    event.PersonnelId,
+                    now_utc,
+                )
+            elif event.ClockedStatus == "OUT":
+                await self.state_store.mark_out_sent(
+                    assignment.deployment_item_id,
+                    event.PersonnelId,
+                    now_utc,
+                )
+        
+        logger.info(
+            f"REALTIME mode complete: {events_posted}/{len(events_to_send)} posted"
+        )
+        
+        return {
+            "mode": "realtime",
+            "assignments_found": len(roster_results),
+            "assignments_parsed": len(assignments),
+            "events_generated": len(events_to_send),
+            "events_posted": events_posted,
+            "ngrs_available": send_successful,
+        }
 
 

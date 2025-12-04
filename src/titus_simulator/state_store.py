@@ -247,3 +247,66 @@ class StateStore:
                 }
                 for row in rows
             ]
+    
+    async def cleanup_posted_events(
+        self, deployment_ids: list[tuple[str, str]]
+    ) -> int:
+        """
+        Delete specific events that were successfully posted (immediate mode).
+        
+        Args:
+            deployment_ids: List of (deployment_item_id, personnel_id) tuples
+            
+        Returns:
+            Number of records deleted
+        """
+        if not deployment_ids:
+            return 0
+            
+        async with aiosqlite.connect(self.db_path) as db:
+            deleted = 0
+            for deployment_id, personnel_id in deployment_ids:
+                await db.execute(
+                    """
+                    DELETE FROM simulated_events
+                    WHERE deployment_item_id = ? AND personnel_id = ?
+                    """,
+                    (deployment_id, personnel_id),
+                )
+                deleted += 1
+            await db.commit()
+        
+        logger.info(f"Cleaned up {deleted} posted event records")
+        return deleted
+    
+    async def cleanup_old_events(self, days_to_keep: int = 2) -> int:
+        """
+        Delete events older than specified days (realtime mode).
+        
+        Args:
+            days_to_keep: Number of days to keep (default: 2)
+            
+        Returns:
+            Number of records deleted
+        """
+        from datetime import timedelta
+        cutoff_date = datetime.now() - timedelta(days=days_to_keep)
+        cutoff_str = cutoff_date.isoformat()
+        
+        async with aiosqlite.connect(self.db_path) as db:
+            # Delete events where both IN and OUT are older than cutoff
+            cursor = await db.execute(
+                """
+                DELETE FROM simulated_events
+                WHERE (in_sent_at < ? OR in_sent_at IS NULL)
+                  AND (out_sent_at < ? OR out_sent_at IS NULL)
+                RETURNING deployment_item_id
+                """,
+                (cutoff_str, cutoff_str),
+            )
+            rows = await cursor.fetchall()
+            deleted = len(rows)
+            await db.commit()
+        
+        logger.info(f"Cleaned up {deleted} old event records (older than {days_to_keep} days)")
+        return deleted

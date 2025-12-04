@@ -214,16 +214,34 @@ async def get_roster_logs():
 
 
 @app.post("/run-from-file")
-async def run_from_file():
+async def run_from_file(mode: str = "realtime"):
     """
     Run simulation using uploaded roster file instead of API.
+    
+    Supports two modes:
+    - "immediate": Generate all events, post immediately, cleanup database
+    - "realtime": Generate events based on actual shift timing (default)
+    
+    Args:
+        mode: Simulation mode ("immediate" or "realtime")
     
     Uses the roster data uploaded via /upload-roster endpoint.
     
     Returns:
         Summary of the simulation run
     """
-    logger.info("File-based simulation triggered")
+    from .simulation_mode import SimulationMode
+    
+    # Validate mode
+    try:
+        sim_mode = SimulationMode(mode.lower())
+    except ValueError:
+        return {
+            "status": "error",
+            "message": f"Invalid mode '{mode}'. Must be 'immediate' or 'realtime'.",
+        }
+    
+    logger.info(f"File-based simulation triggered with mode: {sim_mode.value}")
     
     if not app.state.uploaded_roster:
         return {
@@ -234,7 +252,10 @@ async def run_from_file():
     simulator: TitusSimulator = app.state.simulator
     
     try:
-        result = await simulator.run_cycle_from_roster_data(app.state.uploaded_roster)
+        if sim_mode == SimulationMode.IMMEDIATE:
+            result = await simulator.run_immediate_mode(app.state.uploaded_roster)
+        else:  # REALTIME
+            result = await simulator.run_realtime_mode(app.state.uploaded_roster)
         
         return {
             "status": "completed",

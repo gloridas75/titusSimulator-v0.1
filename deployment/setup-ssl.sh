@@ -83,7 +83,7 @@ server {
 
     # Temporary proxy to services
     location /api/ {
-        proxy_pass http://127.0.0.1:8085/;
+        proxy_pass http://127.0.0.1:8087/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -157,7 +157,7 @@ server {
 
     # API endpoints
     location /api/ {
-        proxy_pass http://127.0.0.1:8085/;
+        proxy_pass http://127.0.0.1:8087/;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -169,7 +169,7 @@ server {
 
     # Web UI (Streamlit)
     location / {
-        proxy_pass http://127.0.0.1:8086;
+        proxy_pass http://127.0.0.1:8088;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -184,7 +184,7 @@ server {
     }
 
     location /_stcore/stream {
-        proxy_pass http://127.0.0.1:8086/_stcore/stream;
+        proxy_pass http://127.0.0.1:8088/_stcore/stream;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -205,7 +205,7 @@ echo -e "${YELLOW}Step 8: Configuring Streamlit...${NC}"
 mkdir -p ~/.streamlit
 cat > ~/.streamlit/config.toml <<EOF
 [server]
-port = 8086
+port = 8088
 enableCORS = false
 enableXsrfProtection = false
 baseUrlPath = ""

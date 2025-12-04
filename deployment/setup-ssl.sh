@@ -66,9 +66,66 @@ sudo apt-get install -y certbot python3-certbot-nginx
 echo -e "${GREEN}✓ Certbot installed${NC}"
 
 echo ""
-echo -e "${YELLOW}Step 5: Creating Nginx configuration...${NC}"
+echo -e "${YELLOW}Step 5: Creating temporary Nginx configuration...${NC}"
 
-# Create nginx config
+# Create initial HTTP-only config (before SSL)
+sudo tee /etc/nginx/sites-available/titussim > /dev/null <<'EOF'
+# Initial HTTP configuration (before SSL)
+server {
+    listen 80;
+    listen [::]:80;
+    server_name titussim.comcentricapps.com;
+
+    # Allow certbot verification
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+    }
+
+    # Temporary proxy to services
+    location /api/ {
+        proxy_pass http://127.0.0.1:8085/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8086;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+EOF
+
+# Enable site
+sudo ln -sf /etc/nginx/sites-available/titussim /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+
+# Test nginx config
+sudo nginx -t
+sudo systemctl reload nginx
+echo -e "${GREEN}✓ Nginx configured (HTTP only)${NC}"
+
+echo ""
+echo -e "${YELLOW}Step 6: Obtaining SSL certificate...${NC}"
+echo "This will take a moment..."
+sudo certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos --email "$EMAIL" --redirect
+
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✓ SSL certificate obtained${NC}"
+else
+    echo -e "${RED}✗ SSL certificate failed${NC}"
+    echo "Check certbot logs: sudo certbot certificates"
+    exit 1
+fi
+
+echo ""
+echo -e "${YELLOW}Step 7: Updating Nginx configuration with full features...${NC}"
+
+# Create full configuration with SSL and all features
 sudo tee /etc/nginx/sites-available/titussim > /dev/null <<'EOF'
 # Redirect HTTP to HTTPS
 server {
@@ -87,9 +144,11 @@ server {
     listen [::]:443 ssl http2;
     server_name titussim.comcentricapps.com;
 
-    # SSL Certificate (will be added by certbot)
-    # ssl_certificate /etc/letsencrypt/live/titussim.comcentricapps.com/fullchain.pem;
-    # ssl_certificate_key /etc/letsencrypt/live/titussim.comcentricapps.com/privkey.pem;
+    # SSL Certificate (added by certbot)
+    ssl_certificate /etc/letsencrypt/live/titussim.comcentricapps.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/titussim.comcentricapps.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     # Security headers
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
@@ -105,6 +164,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_read_timeout 300s;
+        proxy_connect_timeout 75s;
     }
 
     # Web UI (Streamlit)
@@ -119,6 +179,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
         proxy_read_timeout 300s;
+        proxy_connect_timeout 75s;
         proxy_buffering off;
     }
 
@@ -134,23 +195,13 @@ server {
 }
 EOF
 
-# Enable site
-sudo ln -sf /etc/nginx/sites-available/titussim /etc/nginx/sites-enabled/
-sudo rm -f /etc/nginx/sites-enabled/default
-
-# Test nginx config
+# Test and reload nginx
 sudo nginx -t
-echo -e "${GREEN}✓ Nginx configured${NC}"
+sudo systemctl reload nginx
+echo -e "${GREEN}✓ Nginx configuration updated with SSL${NC}"
 
 echo ""
-echo -e "${YELLOW}Step 6: Obtaining SSL certificate...${NC}"
-echo "This will take a moment..."
-sudo certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos --email "$EMAIL" --redirect
-
-echo -e "${GREEN}✓ SSL certificate obtained${NC}"
-
-echo ""
-echo -e "${YELLOW}Step 7: Configuring Streamlit...${NC}"
+echo -e "${YELLOW}Step 8: Configuring Streamlit...${NC}"
 mkdir -p ~/.streamlit
 cat > ~/.streamlit/config.toml <<EOF
 [server]
@@ -166,7 +217,7 @@ EOF
 echo -e "${GREEN}✓ Streamlit configured${NC}"
 
 echo ""
-echo -e "${YELLOW}Step 8: Restarting services...${NC}"
+echo -e "${YELLOW}Step 9: Restarting services...${NC}"
 sudo systemctl reload nginx
 sudo systemctl restart titus-simulator.service
 sudo systemctl restart titus-streamlit.service
@@ -174,7 +225,7 @@ sleep 3
 echo -e "${GREEN}✓ Services restarted${NC}"
 
 echo ""
-echo -e "${YELLOW}Step 9: Testing setup...${NC}"
+echo -e "${YELLOW}Step 10: Testing setup...${NC}"
 
 # Test API
 if curl -sf https://"$DOMAIN"/api/health > /dev/null; then

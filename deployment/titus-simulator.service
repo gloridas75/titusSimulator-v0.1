@@ -6,8 +6,9 @@ After=network.target
 Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/titusSimulator-v0.1
-Environment="PATH=/home/ubuntu/titusSimulator-v0.1/venv/bin"
-ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085
+Environment="PATH=/home/ubuntu/titusSimulator-v0.1/venv/bin:/usr/bin"
+Environment="PYTHONPATH=/home/ubuntu/titusSimulator-v0.1/src"
+ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/python -m uvicorn titus_simulator.api:app --host 0.0.0.0 --port 8085
 Restart=always
 RestartSec=10
 

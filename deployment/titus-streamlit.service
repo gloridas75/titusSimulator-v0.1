@@ -6,8 +6,9 @@ After=network.target titus-simulator.service
 Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/titusSimulator-v0.1
-Environment="PATH=/home/ubuntu/titusSimulator-v0.1/venv/bin"
-ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/streamlit run streamlit_ui.py --server.port 8086 --server.address 0.0.0.0
+Environment="PATH=/home/ubuntu/titusSimulator-v0.1/venv/bin:/usr/bin"
+Environment="PYTHONPATH=/home/ubuntu/titusSimulator-v0.1/src"
+ExecStart=/home/ubuntu/titusSimulator-v0.1/venv/bin/python -m streamlit run streamlit_ui.py --server.port 8086 --server.address 0.0.0.0
 Restart=always
 RestartSec=10
 

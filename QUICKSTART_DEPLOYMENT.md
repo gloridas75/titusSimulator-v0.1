@@ -21,8 +21,8 @@ git add .
 # Commit
 git commit -m "Initial commit: Titus Simulator v0.1"
 
-# Add remote (replace YOUR_USERNAME)
-git remote add origin https://github.com/YOUR_USERNAME/titusSimulator-v0.1.git
+# Add remote
+git remote add origin https://github.com/gloridas75/titusSimulator-v0.1.git
 
 # Push
 git branch -M main
@@ -32,7 +32,7 @@ git push -u origin main
 ### 3. Update Deployment Script
 Edit `deployment/deploy.sh` line 13:
 ```bash
-REPO_URL="https://github.com/YOUR_USERNAME/titusSimulator-v0.1.git"
+REPO_URL="https://github.com/gloridas75/titusSimulator-v0.1.git"
 ```
 
 Then:
@@ -52,7 +52,7 @@ ssh -i /path/to/your-key.pem ubuntu@YOUR-EC2-IP
 ### 2. Run Deployment Script
 ```bash
 # Download script
-curl -o deploy.sh https://raw.githubusercontent.com/YOUR_USERNAME/titusSimulator-v0.1/main/deployment/deploy.sh
+curl -o deploy.sh https://raw.githubusercontent.com/gloridas75/titusSimulator-v0.1/main/deployment/deploy.sh
 
 # Make executable
 chmod +x deploy.sh

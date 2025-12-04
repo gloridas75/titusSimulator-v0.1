@@ -13,7 +13,7 @@ echo ""
 # Variables
 APP_DIR="/home/ubuntu/titusSimulator-v0.1"
 VENV_DIR="$APP_DIR/venv"
-REPO_URL="https://github.com/YOUR_USERNAME/titusSimulator-v0.1.git"  # Update this!
+REPO_URL="https://github.com/gloridas75/titusSimulator-v0.1.git"
 
 # Colors for output
 GREEN='\033[0;32m'

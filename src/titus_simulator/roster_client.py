@@ -21,7 +21,7 @@ class RosterClient:
             settings: Application settings
         """
         self.settings = settings
-        self.base_url = settings.ngrs_roster_url
+        self.base_url = settings.ngrs_roster_url or ""  # Optional - NGRS now POSTs directly
         self.tz = ZoneInfo(settings.timezone)
         
     async def fetch_roster(

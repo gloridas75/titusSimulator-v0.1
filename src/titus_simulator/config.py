@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # NGRS API endpoints
+    # Note: ngrs_roster_url is optional - NGRS now POSTs roster data directly to us
+    ngrs_roster_url: str | None = None
     ngrs_clocking_url: str
     ngrs_api_key: str | None = None
     

@@ -48,8 +48,9 @@ def setup_scheduler(
         """Job that runs daily at 2 AM to cleanup old event records."""
         try:
             logger.info("Running daily cleanup job")
-            deleted = await store.cleanup_old_events(days_to_keep=2)
-            logger.info(f"Daily cleanup completed: {deleted} records removed")
+            deleted_events = await store.cleanup_old_events(days_to_keep=2)
+            deleted_rosters = await store.cleanup_old_roster_files(days_to_keep=7)
+            logger.info(f"Daily cleanup completed: {deleted_events} events, {deleted_rosters} roster files removed")
         except Exception as e:
             logger.error(f"Error in cleanup job: {e}", exc_info=True)
     

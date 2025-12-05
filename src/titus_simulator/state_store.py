@@ -45,6 +45,16 @@ class StateStore:
                 )
             """)
             
+            await db.execute("""
+                CREATE TABLE IF NOT EXISTS roster_files (
+                    roster_file_id TEXT PRIMARY KEY,
+                    uploaded_at TEXT NOT NULL,
+                    assignments_count INTEGER NOT NULL,
+                    roster_data TEXT NOT NULL,
+                    status TEXT DEFAULT 'pending'
+                )
+            """)
+            
             await db.commit()
         
         logger.info("State store initialized")
@@ -309,4 +319,113 @@ class StateStore:
             await db.commit()
         
         logger.info(f"Cleaned up {deleted} old event records (older than {days_to_keep} days)")
+        return deleted
+    
+    async def store_roster_file(
+        self, roster_file_id: str, roster_data: str, assignments_count: int
+    ) -> None:
+        """
+        Store a roster file in the database.
+        
+        Args:
+            roster_file_id: UUID for the roster file
+            roster_data: JSON string of roster data
+            assignments_count: Number of assignments in roster
+        """
+        timestamp = datetime.now().isoformat()
+        
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute(
+                """
+                INSERT INTO roster_files (roster_file_id, uploaded_at, assignments_count, roster_data, status)
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                (roster_file_id, timestamp, assignments_count, roster_data, "pending"),
+            )
+            await db.commit()
+        
+        logger.info(f"Stored roster file {roster_file_id} with {assignments_count} assignments")
+    
+    async def get_roster_file(self, roster_file_id: str) -> dict | None:
+        """
+        Retrieve a roster file from the database.
+        
+        Args:
+            roster_file_id: UUID of the roster file
+            
+        Returns:
+            Dictionary with roster data or None if not found
+        """
+        async with aiosqlite.connect(self.db_path) as db:
+            cursor = await db.execute(
+                """
+                SELECT roster_file_id, uploaded_at, assignments_count, roster_data, status
+                FROM roster_files
+                WHERE roster_file_id = ?
+                """,
+                (roster_file_id,),
+            )
+            row = await cursor.fetchone()
+            
+            if row:
+                return {
+                    "roster_file_id": row[0],
+                    "uploaded_at": row[1],
+                    "assignments_count": row[2],
+                    "roster_data": row[3],
+                    "status": row[4],
+                }
+            return None
+    
+    async def update_roster_file_status(
+        self, roster_file_id: str, status: str
+    ) -> None:
+        """
+        Update the status of a roster file.
+        
+        Args:
+            roster_file_id: UUID of the roster file
+            status: New status (pending, processing, completed, failed)
+        """
+        async with aiosqlite.connect(self.db_path) as db:
+            await db.execute(
+                """
+                UPDATE roster_files
+                SET status = ?
+                WHERE roster_file_id = ?
+                """,
+                (status, roster_file_id),
+            )
+            await db.commit()
+        
+        logger.info(f"Updated roster file {roster_file_id} status to {status}")
+    
+    async def cleanup_old_roster_files(self, days_to_keep: int = 7) -> int:
+        """
+        Delete roster files older than specified days.
+        
+        Args:
+            days_to_keep: Number of days to keep (default: 7)
+            
+        Returns:
+            Number of files deleted
+        """
+        from datetime import timedelta
+        cutoff_date = datetime.now() - timedelta(days=days_to_keep)
+        cutoff_str = cutoff_date.isoformat()
+        
+        async with aiosqlite.connect(self.db_path) as db:
+            cursor = await db.execute(
+                """
+                DELETE FROM roster_files
+                WHERE uploaded_at < ?
+                RETURNING roster_file_id
+                """,
+                (cutoff_str,),
+            )
+            rows = await cursor.fetchall()
+            deleted = len(rows)
+            await db.commit()
+        
+        logger.info(f"Cleaned up {deleted} old roster files (older than {days_to_keep} days)")
         return deleted

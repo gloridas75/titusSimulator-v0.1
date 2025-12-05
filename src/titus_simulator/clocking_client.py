@@ -43,6 +43,9 @@ class ClockingClient:
         async with httpx.AsyncClient(timeout=30.0) as client:
             # Send each event individually
             success_count = 0
+            validation_errors = 0
+            ngrs_available = True
+            
             for event in events:
                 try:
                     response = await client.post(
@@ -55,10 +58,21 @@ class ClockingClient:
                     logger.debug(f"Event {event.ClockingId} sent successfully")
                     
                 except httpx.HTTPStatusError as e:
-                    logger.error(
-                        f"HTTP error sending event {event.ClockingId}: {e.response.status_code} - "
-                        f"{e.response.text}"
-                    )
+                    # HTTP 4xx/5xx errors mean NGRS is available but rejected the event
+                    if e.response.status_code in [401, 403]:
+                        # Authentication failures - NGRS unavailable with current credentials
+                        logger.error(
+                            f"Authentication error sending event {event.ClockingId}: {e.response.status_code} - "
+                            f"{e.response.text}"
+                        )
+                        ngrs_available = False
+                    elif e.response.status_code >= 400:
+                        # Validation errors (400, 422, etc.) - NGRS is available but data invalid
+                        validation_errors += 1
+                        logger.error(
+                            f"HTTP error sending event {event.ClockingId}: {e.response.status_code} - "
+                            f"{e.response.text}"
+                        )
                 except httpx.ConnectError as e:
                     logger.warning(
                         f"NGRS API not available (Connection refused). "
@@ -68,12 +82,20 @@ class ClockingClient:
                 except Exception as e:
                     logger.error(f"Error sending event {event.ClockingId}: {e}")
             
+            # NGRS is considered "available" if we successfully connected and got responses
+            # (even if events were rejected for validation reasons)
             if success_count == len(events):
                 logger.info(f"Successfully sent all {success_count} events to {self.url}")
                 return True
-            elif success_count > 0:
-                logger.warning(f"Partially sent {success_count}/{len(events)} events")
-                return False
+            elif success_count > 0 or validation_errors > 0:
+                if validation_errors > 0:
+                    logger.warning(
+                        f"NGRS API available but {validation_errors}/{len(events)} events rejected (validation errors). "
+                        f"{success_count} events accepted."
+                    )
+                else:
+                    logger.warning(f"Partially sent {success_count}/{len(events)} events")
+                return ngrs_available  # True if we got validation errors (NGRS is working)
             else:
                 return False
 

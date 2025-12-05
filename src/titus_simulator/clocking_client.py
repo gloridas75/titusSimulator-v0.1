@@ -48,9 +48,14 @@ class ClockingClient:
             
             for event in events:
                 try:
+                    payload = event.model_dump()
+                    # Log first event payload for debugging
+                    if success_count == 0 and validation_errors == 0:
+                        logger.info(f"Sample event payload: {payload}")
+                    
                     response = await client.post(
                         self.url,
-                        json=event.model_dump(),
+                        json=payload,
                         headers=headers,
                     )
                     response.raise_for_status()

@@ -178,9 +178,31 @@ curl -X POST "https://titussim.comcentricapps.com/api/run-from-file?mode=immedia
 - All roster operations now require rosterFileId
 - Backward compatibility: None (breaking change)
 
+## NGRS API Configuration
+
+The simulator is configured to post clocking events to the production NGRS API:
+
+- **URL**: `https://ngrs-api.comcentricapps.com/api/external/clocking/receive`
+- **Authentication**: `x-api-key: 3a0e3418-34a1-4c2a-bdfa-fed82dfddbce`
+- **Method**: POST
+- **Content-Type**: application/json
+
+Each clocking event is sent individually with the following format:
+```json
+{
+  "BuWerks": "4120",
+  "ClockedDateTime": "20251205103022",
+  "ClockedDeviceId": "SIM-10.0.0.5",
+  "ClockedStatus": "IN",
+  "ClockingId": "uuid-here",
+  "PersonnelId": "00037056",
+  "RequestId": "uuid-here",
+  "SendFrom": "titusSimulator"
+}
+```
+
 ## Next Steps
 - [ ] Add webhook endpoint for NGRS to receive completion notifications
 - [ ] Add status endpoint: `GET /roster-file/{rosterFileId}/status`
 - [ ] Implement retry mechanism for failed roster processing
 - [ ] Add rate limiting for roster uploads
-- [ ] Update Postman collection with rosterFileId examples

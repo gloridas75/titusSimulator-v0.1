@@ -34,11 +34,11 @@ class ClockingClient:
             logger.debug("No events to send")
             return
         
-        headers = {}
+        headers = {"Content-Type": "application/json"}
         if self.settings.ngrs_api_key:
-            headers["Authorization"] = f"Bearer {self.settings.ngrs_api_key}"
+            headers["x-api-key"] = self.settings.ngrs_api_key
         
-        logger.info(f"Sending {len(events)} clock events to NGRS")
+        logger.info(f"Sending {len(events)} clock events to NGRS at {self.url}")
         
         async with httpx.AsyncClient(timeout=30.0) as client:
             # Send each event individually
@@ -52,6 +52,7 @@ class ClockingClient:
                     )
                     response.raise_for_status()
                     success_count += 1
+                    logger.debug(f"Event {event.ClockingId} sent successfully")
                     
                 except httpx.HTTPStatusError as e:
                     logger.error(
@@ -68,7 +69,7 @@ class ClockingClient:
                     logger.error(f"Error sending event {event.ClockingId}: {e}")
             
             if success_count == len(events):
-                logger.info(f"Successfully sent all {success_count} events")
+                logger.info(f"Successfully sent all {success_count} events to {self.url}")
                 return True
             elif success_count > 0:
                 logger.warning(f"Partially sent {success_count}/{len(events)} events")

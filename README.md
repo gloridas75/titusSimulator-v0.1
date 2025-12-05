@@ -38,13 +38,24 @@ pip install -e ".[dev]"
 Create a `.env` file in the project root:
 
 ```env
-# Note: NGRS will POST roster data directly to Titus Simulator's /upload-roster endpoint
-NGRS_CLOCKING_URL=http://localhost:8080/api/integration/titus/clocking
-NGRS_API_KEY=dev-token
+# NGRS API Configuration
+# Production NGRS Clocking API
+NGRS_CLOCKING_URL=https://ngrs-api.comcentricapps.com/api/external/clocking/receive
+NGRS_API_KEY=3a0e3418-34a1-4c2a-bdfa-fed82dfddbce
+
+# Port Configuration
+TITUS_API_PORT=8087
+TITUS_UI_PORT=8088
+
+# Scheduler Configuration
 POLL_INTERVAL_SECONDS=60
+
+# Application Configuration
 TIMEZONE=Asia/Singapore
 DATABASE_PATH=sim_state.db
 ```
+
+**Note**: The API key is sent as `x-api-key` header to the NGRS clocking endpoint.
 
 ## Running
 

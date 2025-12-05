@@ -45,8 +45,8 @@ This folder contains Postman collections and environments for testing the Titus 
 - **ui_port**: `8088`
 - **server_ip**: `47.128.231.85`
 - **domain**: `titussim.comcentricapps.com`
-- **ngrs_clocking_url**: Configure your NGRS server URL
-- **ngrs_api_key**: Configure your API key
+- **ngrs_clocking_url**: `https://ngrs-api.comcentricapps.com/api/external/clocking/receive`
+- **ngrs_api_key**: `3a0e3418-34a1-4c2a-bdfa-fed82dfddbce` (sent as `x-api-key` header)
 - **roster_file_id**: Auto-populated by test scripts
 
 ## RosterFileId Workflow (NEW)
@@ -234,11 +234,11 @@ The simulator now uses UUID-based roster tracking. Each uploaded roster receives
 | `ui_port` | `8088` | Web UI port |
 | `server_ip` | `47.128.231.85` | EC2 instance IP |
 | `domain` | `titussim.comcentricapps.com` | Production domain |
-| `ngrs_clocking_url` | Configure your URL | NGRS Clocking API endpoint |
-| `ngrs_api_key` | _(set your key)_ | Optional API key for NGRS |
+| `ngrs_clocking_url` | `https://ngrs-api.comcentricapps.com/api/external/clocking/receive` | NGRS Clocking API endpoint |
+| `ngrs_api_key` | `3a0e3418-34a1-4c2a-bdfa-fed82dfddbce` | NGRS API key (x-api-key header) |
 | `roster_file_id` | Auto-populated | Current roster UUID |
 
-Note: `ngrs_roster_url` is no longer needed as NGRS POSTs roster data directly to Titus Simulator's `/upload-roster` endpoint.
+**Note**: The NGRS API key is sent as `x-api-key` header with each clocking event POST request.
 
 ## Configuration
 
@@ -259,7 +259,8 @@ ngrs_clocking_url = http://localhost:8080/api/integration/titus/clocking
 **Production Server:**
 ```
 base_url = https://titussim.comcentricapps.com/api
-ngrs_clocking_url = http://your-ngrs-server:8080/api/integration/titus/clocking
+ngrs_clocking_url = https://ngrs-api.comcentricapps.com/api/external/clocking/receive
+ngrs_api_key = 3a0e3418-34a1-4c2a-bdfa-fed82dfddbce
 ```
 
 ## Usage Workflow

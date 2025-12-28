@@ -43,8 +43,8 @@ class TitusSimulator:
         Plan IN and OUT events for a roster assignment with timing variations.
         
         Splits employees into two groups:
-        - Group 1 (90%): Compliant - arrive early/on-time, leave on-time/late (always work >= planned hours)
-        - Group 2 (10%): Variable - mixed behavior, some with short hours
+        - Group 1 (80%): Compliant - arrive early/on-time, leave on-time/late (always work >= planned hours)
+        - Group 2 (20%): Short Hours - arrive late, leave early (always work < planned hours)
         
         Uses deterministic randomness based on deployment and personnel IDs
         to ensure consistent behavior across runs.
@@ -60,39 +60,27 @@ class TitusSimulator:
         seed = hash(seed_str) % (2**31)
         rng = random.Random(seed)
         
-        # Determine group assignment based on personnel_id (90/10 split)
+        # Determine group assignment based on personnel_id (80/20 split)
         group_seed = hash(assignment.personnel_id) % 100
-        is_compliant_group = group_seed < 90  # 90% will be True
+        is_compliant_group = group_seed < 80  # 80% will be True
         
         events = []
         
         if is_compliant_group:
-            # Group 1 (90%): Compliant employees
+            # Group 1 (80%): Compliant employees
             # Clock IN: -5 to 0 minutes (early or on-time, never late)
             in_offset = timedelta(minutes=rng.randint(-5, 0))
             # Clock OUT: 0 to +5 minutes (on-time or with overtime)
             out_offset = timedelta(minutes=rng.randint(0, 5))
-            group_label = "Compliant (90%)"
+            group_label = "Compliant (80%)"
         else:
-            # Group 2 (10%): Variable employees
-            # Further split into sub-groups
-            subgroup_seed = group_seed % 10  # 0-9
-            
-            if subgroup_seed < 6:
-                # Sub-group 2A (60% of Group 2, ~6% overall): Random behavior
-                # Clock IN: -5 to +10 minutes (can be early or late)
-                in_offset = timedelta(minutes=rng.randint(-5, 10))
-                # Clock OUT: -5 to +10 minutes (can leave early or late)
-                out_offset = timedelta(minutes=rng.randint(-5, 10))
-                group_label = "Variable-Random (6%)"
-            else:
-                # Sub-group 2B (40% of Group 2, ~4% overall): Short hours
-                # Engineered to be 3-7 minutes short of planned hours
-                # Clock IN: 0 to +2 minutes (on-time to slightly late)
-                in_offset = timedelta(minutes=rng.randint(0, 2))
-                # Clock OUT: -5 to -3 minutes (leave 3-5 minutes early)
-                out_offset = timedelta(minutes=rng.randint(-5, -3))
-                group_label = "Variable-Short (4%)"
+            # Group 2 (20%): Short Hours - arrives late & leaves early
+            # Engineered to be 3-7 minutes short of planned hours
+            # Clock IN: 0 to +2 minutes (on-time to slightly late)
+            in_offset = timedelta(minutes=rng.randint(0, 2))
+            # Clock OUT: -5 to -3 minutes (leave 3-5 minutes early)
+            out_offset = timedelta(minutes=rng.randint(-5, -3))
+            group_label = "Short Hours (20%)"
         
         in_time = assignment.planned_start + in_offset
         events.append(

@@ -48,7 +48,7 @@
 						"upload-roster"
 					]
 				},
-				"description": "Upload roster data (NGRS format) to the simulator. This endpoint accepts the complete NGRS roster JSON with __metadata structure and returns a unique RosterFileId along with RequestId for each PersonnelId."
+				"description": "Upload roster data (NGRS format) to the simulator. This endpoint accepts the complete NGRS roster JSON with __metadata structure and returns a RequestId for each PersonnelId."
 			},
 			"response": [
 				{
@@ -85,48 +85,25 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"success\": true,\n    \"roster_file_id\": \"e8d63206-3ab3-41a5-961d-1e406c1c7de9\",\n    \"results\": [\n        {\n            \"PersonnelId\": \"00037056\",\n            \"RequestId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\"\n        },\n        {\n            \"PersonnelId\": \"00012345\",\n            \"RequestId\": \"b2c3d4e5-f6a7-8901-bcde-f12345678901\"\n        }\n    ]\n}"
-				}
-			],
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// Store the roster_file_id in environment variable for use in subsequent requests",
-							"var jsonData = pm.response.json();",
-							"if (jsonData.roster_file_id) {",
-							"    pm.environment.set(\"roster_file_id\", jsonData.roster_file_id);",
-							"    console.log(\"Stored roster_file_id: \" + jsonData.roster_file_id);",
-							"}"
-						],
-						"type": "text/javascript"
-					}
+					"body": "{\n    \"success\": true,\n    \"results\": [\n        {\n            \"PersonnelId\": \"00037056\",\n            \"RequestId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\"\n        },\n        {\n            \"PersonnelId\": \"00012345\",\n            \"RequestId\": \"b2c3d4e5-f6a7-8901-bcde-f12345678901\"\n        }\n    ]\n}"
 				}
 			]
 		},
 		{
-			"name": "Get Roster by RosterFileId",
+			"name": "Get Current Roster",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/roster?rosterFileId={{roster_file_id}}",
+					"raw": "{{base_url}}/roster",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"roster"
-					],
-					"query": [
-						{
-							"key": "rosterFileId",
-							"value": "{{roster_file_id}}",
-							"description": "UUID of the uploaded roster file"
-						}
 					]
 				},
-				"description": "Retrieve roster data by RosterFileId. Returns roster details including upload timestamp, status, and assignment data."
+				"description": "Retrieve the currently uploaded roster data."
 			},
 			"response": []
 		},
@@ -149,145 +126,22 @@
 			"response": []
 		},
 		{
-			"name": "Run Simulation - Immediate Mode",
+			"name": "Run Simulation from Uploaded File",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/run-from-file?mode=immediate&rosterFileId={{roster_file_id}}",
+					"raw": "{{base_url}}/run-from-file",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"run-from-file"
-					],
-					"query": [
-						{
-							"key": "mode",
-							"value": "immediate",
-							"description": "Simulation mode: 'immediate' generates all events at once"
-						},
-						{
-							"key": "rosterFileId",
-							"value": "{{roster_file_id}}",
-							"description": "UUID of the uploaded roster file (required)"
-						}
 					]
 				},
-				"description": "Trigger immediate simulation using RosterFileId. Generates all clock-in/out events at once, posts to NGRS, and cleans up database."
+				"description": "Trigger simulation using previously uploaded roster data. Generates clock-in/out events for all assignments."
 			},
-			"response": [
-				{
-					"name": "Immediate Mode Success",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/run-from-file?mode=immediate&rosterFileId={{roster_file_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"run-from-file"
-							],
-							"query": [
-								{
-									"key": "mode",
-									"value": "immediate"
-								},
-								{
-									"key": "rosterFileId",
-									"value": "{{roster_file_id}}"
-								}
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"status\": \"completed\",\n    \"roster_file_id\": \"e8d63206-3ab3-41a5-961d-1e406c1c7de9\",\n    \"result\": {\n        \"mode\": \"immediate\",\n        \"assignments_found\": 40,\n        \"assignments_parsed\": 40,\n        \"events_generated\": 80,\n        \"events_posted\": 80,\n        \"records_cleaned\": 80,\n        \"ngrs_available\": true\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Run Simulation - Realtime Mode",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/run-from-file?mode=realtime&rosterFileId={{roster_file_id}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"run-from-file"
-					],
-					"query": [
-						{
-							"key": "mode",
-							"value": "realtime",
-							"description": "Simulation mode: 'realtime' generates events based on shift timing"
-						},
-						{
-							"key": "rosterFileId",
-							"value": "{{roster_file_id}}",
-							"description": "UUID of the uploaded roster file (required)"
-						}
-					]
-				},
-				"description": "Trigger realtime simulation using RosterFileId. Generates events only for shifts within 15-minute window of current time. Suitable for scheduled execution."
-			},
-			"response": [
-				{
-					"name": "Realtime Mode Success",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/run-from-file?mode=realtime&rosterFileId={{roster_file_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"run-from-file"
-							],
-							"query": [
-	"variable": [
-		{
-			"key": "base_url",
-			"value": "http://localhost:8087",
-			"type": "string"
-		},
-		{
-			"key": "ngrs_clocking_url",
-			"value": "http://localhost:8080/api/integration/titus/clocking",
-			"type": "string"
-		},
-		{
-			"key": "ngrs_api_key",
-			"value": "your-api-key-here",
-			"type": "string"
-		},
-		{
-			"key": "roster_file_id",
-			"value": "e8d63206-3ab3-41a5-961d-1e406c1c7de9",
-			"type": "string"
-		}
-	]
-}						"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"status\": \"completed\",\n    \"roster_file_id\": \"e8d63206-3ab3-41a5-961d-1e406c1c7de9\",\n    \"result\": {\n        \"mode\": \"realtime\",\n        \"assignments_found\": 40,\n        \"assignments_parsed\": 40,\n        \"events_generated\": 4,\n        \"events_posted\": 4\n    }\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Run Simulation by Date",
@@ -349,7 +203,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"BuWerks\": \"4120\",\n    \"ClockedDateTime\": \"20260115093022\",\n    \"ClockedDeviceId\": \"SIM-10.0.0.5\",\n    \"ClockedStatus\": \"IN\",\n    \"ClockingId\": \"00c2awe0-96f9-4dba-a891-83014e23447a\",\n    \"PersonnelId\": \"00037056\",\n    \"RequestId\": \"4aaweu6e-42be-4957-bsd5-3f721e8f4020\",\n    \"SendFrom\": \"titusSimulator\"\n}"
+					"raw": "{\n    \"BuWerks\": \"4120\",\n    \"ClockedDateTime\": \"20240915092822\",\n    \"ClockedDeviceId\": \"898.10.15.14\",\n    \"ClockedStatus\": \"OUT\",\n    \"ClockingId\": \"00c2awe0-96f9-4dba-a891-83014e23447a\",\n    \"PersonnelId\": \"00023280\",\n    \"RequestId\": \"4aaweu6e-42be-4957-bsd5-3f721e8f4020\",\n    \"SendFrom\": \"titusSimulator\"\n}"
 				},
 				"url": {
 					"raw": "{{ngrs_clocking_url}}",
@@ -385,7 +239,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:8085",
+			"value": "http://localhost:8087",
 			"type": "string"
 		},
 		{
@@ -396,6 +250,11 @@
 		{
 			"key": "ngrs_api_key",
 			"value": "your-api-key-here",
+			"type": "string"
+		},
+		{
+			"key": "roster_file_id",
+			"value": "",
 			"type": "string"
 		}
 	]
